@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:layout_marginTop="16dp"
     android:background="@drawable/rounded_white_rectangle"
     android:elevation="12dp"
-    app:cardCornerRadius="24dp"
-    android:layout_marginTop="16dp"
-    android:layout_gravity="center">
+    app:cardCornerRadius="24dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cvClient"
@@ -21,9 +21,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tvClientName"
@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/client_name"
                 android:textColor="@color/black"
-                android:textSize="20sp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tvClientIPAddress"
@@ -46,13 +46,13 @@
 
         <ImageView
             android:id="@+id/ivCLientAccessIndicator"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/iv_access_indicator"
-            app:layout_constraintTop_toTopOf="@id/clientInfo"
+            android:src="@drawable/access_indicator"
             app:layout_constraintBottom_toBottomOf="@id/clientInfo"
             app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/access_indicator"/>
+            app:layout_constraintTop_toTopOf="@id/clientInfo" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

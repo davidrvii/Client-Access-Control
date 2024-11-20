@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F5F5"
     tools:context=".view.ui.home.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,76 +20,98 @@
             android:id="@+id/tvTopbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="32dp"
             android:text="@string/app_name"
             android:textColor="@color/black"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_marginVertical="24dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/rounded_red_rectangle"
-            android:contentDescription="@string/bt_logout_desc"
-            android:elevation="8dp"
-            android:padding="8dp"
-            android:src="@drawable/logout_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/white" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/btMenu"
+        style="?attr/materialIconButtonFilledStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#222222"
+        android:contentDescription="@string/bt_logout_desc"
+        android:elevation="8dp"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/menu"
+        app:iconSize="0dp"
+        app:iconTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/btNetwork"
+        style="?attr/materialIconButtonFilledStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#404040"
+        android:contentDescription="@string/bt_logout_desc"
+        android:elevation="8dp"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/network"
+        app:iconSize="0dp"
+        android:visibility="invisible"
+        app:iconTint="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/btMenu"
+        app:layout_constraintStart_toStartOf="@id/btMenu"
+        app:layout_constraintTop_toBottomOf="@id/btMenu" />
+    <Button
+        android:id="@+id/btLogout"
+        style="?attr/materialIconButtonFilledStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#EB2F2F"
+        android:contentDescription="@string/bt_logout_desc"
+        android:elevation="8dp"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/logout_icon"
+        app:iconSize="0dp"
+        android:visibility="invisible"
+        app:iconTint="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/btNetwork"
+        app:layout_constraintStart_toStartOf="@id/btNetwork"
+        app:layout_constraintTop_toBottomOf="@id/btNetwork" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/serchBar"
+
+    <com.google.android.material.search.SearchBar
+        android:id="@+id/searchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
-        android:background="@drawable/rounded_white_rectangle"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/white"
         android:elevation="8dp"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="12dp"
+        android:hint="@string/search_hint"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topBar">
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:menu="@menu/filter_menu"
+        app:navigationIcon="@drawable/search_icon"
+        app:navigationIconTint="@color/black">
+    </com.google.android.material.search.SearchBar>
 
-        <ImageView
-            android:id="@+id/btSearch"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:contentDescription="@string/bt_search_desc"
-            android:src="@drawable/search_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvSearchHint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:text="@string/search_hint"
-            android:textColor="#80000000"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@id/btSearch"
-            app:layout_constraintStart_toEndOf="@id/btSearch"
-            app:layout_constraintTop_toTopOf="@id/btSearch" />
-
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:contentDescription="@string/bt_filter_desc"
-            android:src="@drawable/filter_icon"
-            app:layout_constraintBottom_toBottomOf="@id/tvSearchHint"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvSearchHint" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.search.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="8dp"
+        app:backgroundTint="@color/white"
+        app:layout_anchor="@id/searchBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </com.google.android.material.search.SearchView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clientList"
@@ -100,7 +123,59 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/serchBar">
+        app:layout_constraintTop_toBottomOf="@id/searchBar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cvClient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="28dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/rounded_white_rectangle"
+            android:elevation="12dp"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="16dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/clientInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tvClientName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/client_name"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tvClientIPAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/client_ip"
+                    android:textColor="#757575"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/ivCLientAccessIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/iv_access_indicator"
+                android:src="@drawable/access_indicator"
+                app:layout_constraintBottom_toBottomOf="@id/clientInfo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/clientInfo" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvClientList"
@@ -116,17 +191,18 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/custom_fab"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btNewClient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        android:background="@drawable/rounded_black_rectangle"
+        android:backgroundTint="@color/black"
         android:contentDescription="@string/bt_new_client"
-        android:elevation="16dp"
-        android:src="@drawable/add_icon"
+        android:elevation="8dp"
+        app:fabCustomSize="72dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/add_icon"
         app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
