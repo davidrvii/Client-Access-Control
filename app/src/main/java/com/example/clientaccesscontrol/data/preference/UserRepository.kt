@@ -43,11 +43,11 @@ class UserRepository private constructor(
         val loginResponse = apiServiceCAC.login(ipAddress, username, password)
         Log.d("UserRepository", "Login response: $loginResponse")
         if (loginResponse.message == "Login Success") {
-            loginResponse.token.let {
+            loginResponse.loginResult?.token?.let {
                 Log.d("UserRepository", "Saving token: $it")
                 saveToken(it)
             }
-            loginResponse.ipAddress.let {
+            loginResponse.loginResult?.ipAddress?.let {
                 Log.d("UserRepository", "Saving base URL: $it")
                 saveUrlBase(it)
             }
