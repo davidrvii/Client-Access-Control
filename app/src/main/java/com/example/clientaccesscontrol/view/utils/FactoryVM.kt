@@ -10,6 +10,7 @@ import com.example.clientaccesscontrol.view.ui.connect.ConnectVM
 import com.example.clientaccesscontrol.view.ui.editrouter.EditRouterVM
 import com.example.clientaccesscontrol.view.ui.filter.FilterBottomSheetVM
 import com.example.clientaccesscontrol.view.ui.home.MainVM
+import com.example.clientaccesscontrol.view.ui.networklist.NetworkListVM
 import com.example.clientaccesscontrol.view.ui.newclientprofile.NewClientProfileVM
 import com.example.clientaccesscontrol.view.ui.newclientqueue.NewClientQueueVM
 import com.example.clientaccesscontrol.view.ui.newclientrouter.NewClientRouterVM
@@ -52,6 +53,10 @@ class FactoryVM(
             modelClass.isAssignableFrom(FilterBottomSheetVM::class.java) -> {
                 FilterBottomSheetVM(repository) as T
 
+            }
+
+            modelClass.isAssignableFrom(NetworkListVM::class.java) -> {
+                NetworkListVM(repository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
