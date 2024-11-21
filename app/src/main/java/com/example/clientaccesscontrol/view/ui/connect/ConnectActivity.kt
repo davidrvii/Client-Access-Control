@@ -21,6 +21,8 @@ import com.example.clientaccesscontrol.view.utils.FactoryVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
+import retrofit2.HttpException
 
 class ConnectActivity : AppCompatActivity() {
 
@@ -108,17 +110,21 @@ class ConnectActivity : AppCompatActivity() {
     }
 
     private suspend fun loginProcess(username: String, password: String, ipAddress: String) {
-        connectViewModel.login(ipAddress, username, password)
         try {
+            connectViewModel.login(ipAddress, username, password)
             withContext(Dispatchers.Main) {
                 loginSuccess()
             }
-        } catch (e: Exception) {
+        } catch (e: HttpException) {
+            val errorMessage = parseErrorMessage(e)
+            Log.d("ConnectActivity", "Login failed: $errorMessage")
             Log.e("ConnectActivity", "Login failed: ${e.message}")
-            if (e.message?.contains("Invalid IP Address") == true) {
+            if (errorMessage.contains("Invalid IP Address")) {
                 try {
+                    Log.d("ConnectActivity", "Trying to register with IP: $ipAddress")
                     connectViewModel.register(username, password, ipAddress)
                     try {
+                        Log.d("ConnectActivity", "Trying to login with IP: $ipAddress")
                         connectViewModel.login(ipAddress, username, password)
                         withContext(Dispatchers.Main) {
                             loginSuccess()
@@ -138,6 +144,16 @@ class ConnectActivity : AppCompatActivity() {
                     loginFailed()
                 }
             }
+        }
+    }
+
+    private fun parseErrorMessage(e: HttpException): String {
+        return try {
+            val errorBody = e.response()?.errorBody()?.string()
+            val json = JSONObject(errorBody.toString())
+            json.getString("message")
+        } catch (ex: Exception) {
+            "An unknown error occurred"
         }
     }
 
