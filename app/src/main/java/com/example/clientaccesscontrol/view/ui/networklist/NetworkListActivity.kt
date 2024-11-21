@@ -39,14 +39,22 @@ class NetworkListActivity : AppCompatActivity() {
             insets
         }
 
-        val network = intent.getStringExtra("network")
-        binding.tvTopbar.text = network
+        setupNetworkList()
 
+        setupActionButton()
+    }
+
+    private fun setupActionButton() {
         binding.btBack.setOnClickListener {
             val intent = Intent(this, NetworkActivity::class.java)
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun setupNetworkList() {
+        val network = intent.getStringExtra("network")
+        binding.tvTopbar.text = network
 
         when (network) {
             "BTS" -> {
