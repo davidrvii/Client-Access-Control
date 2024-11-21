@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.clientaccesscontrol.R
 import com.example.clientaccesscontrol.databinding.ActivityConnectBinding
 import com.example.clientaccesscontrol.view.ui.home.MainActivity
+import com.example.clientaccesscontrol.view.ui.home.MainVM
 import com.example.clientaccesscontrol.view.utils.FactoryVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,12 +27,28 @@ class ConnectActivity : AppCompatActivity() {
     private val connectViewModel by viewModels<ConnectVM> {
         FactoryVM.getInstance(this)
     }
+    private val session by viewModels<MainVM> {
+        FactoryVM.getInstance(this)
+    }
     private lateinit var binding: ActivityConnectBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         enableEdgeToEdge()
+
+        session.getSession().observe(this) { user ->
+            if (user.isLogin) {
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            } else {
+                setupUI()
+            }
+        }
+
+    }
+
+    private fun setupUI() {
         binding = ActivityConnectBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -40,8 +57,6 @@ class ConnectActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        Log.d("ConnectActivity", "viewmodel called: $connectViewModel")
 
         setupAction()
     }
@@ -73,12 +88,10 @@ class ConnectActivity : AppCompatActivity() {
         })
 
         binding.btConnect.setOnClickListener {
-            val username = binding.etUsername.text.toString()
-            val password = binding.etPassword.text.toString()
-            val ipAddress = binding.etAddress.text.toString()
-            Log.d("ConnectActivity", "Button Connect clicked with username: $username, password: $password, ipAddress: $ipAddress")
+            val username = binding.etUsername.text.toString().trim()
+            val password = binding.etPassword.text.toString().trim()
+            val ipAddress = binding.etAddress.text.toString().trim()
             lifecycleScope.launch(Dispatchers.IO) {
-                Log.d("ConnectActivity", "Coroutine launched")
                 loginProcess(username, password, ipAddress)
             }
         }
@@ -96,23 +109,17 @@ class ConnectActivity : AppCompatActivity() {
 
     private suspend fun loginProcess(username: String, password: String, ipAddress: String) {
         connectViewModel.login(ipAddress, username, password)
-        Log.d("ConnectActivity", "Login process started")
         try {
-            Log.d("ConnectActivity", "Login successful")
             withContext(Dispatchers.Main) {
                 loginSuccess()
             }
         } catch (e: Exception) {
-            Log.e("Login Error", "${e.message}")
             Log.e("ConnectActivity", "Login failed: ${e.message}")
             if (e.message?.contains("Invalid IP Address") == true) {
                 try {
-                    Log.d("ConnectActivity", "Trying to register")
                     connectViewModel.register(username, password, ipAddress)
-                    Log.d("ConnectActivity", "Attempting to register")
                     try {
                         connectViewModel.login(ipAddress, username, password)
-                        Log.d("ConnectActivity", "Login successful")
                         withContext(Dispatchers.Main) {
                             loginSuccess()
                         }
@@ -135,7 +142,6 @@ class ConnectActivity : AppCompatActivity() {
     }
 
     private fun loginSuccess() {
-        Log.d("ConnectActivity", "Navigating to MainActivity")
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
@@ -143,7 +149,6 @@ class ConnectActivity : AppCompatActivity() {
     }
 
     private fun loginFailed() {
-        Log.d("ConnectActivity", "Login failed, showing toast")
         Toast.makeText(this, "Login gagal, silahkan coba lagi", Toast.LENGTH_SHORT).show()
     }
 }

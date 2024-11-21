@@ -1,7 +1,6 @@
 package com.example.clientaccesscontrol.data.preference
 
 import android.content.Context
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -16,8 +15,6 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 class UserPreference private constructor(private val dataStore: DataStore<Preferences>) {
     fun getSession(): Flow<UserModel> {
         return dataStore.data.map { preferences ->
-            val token = preferences[TOKEN_KEY] ?: ""
-            Log.d("UserPreferences", "Token Retrieved in Session: $token")
             UserModel(
                 preferences[IP_ADDRESS_KEY] ?: "",
                 preferences[TOKEN_KEY] ?: "",
@@ -31,7 +28,6 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
             dataStore.edit { preferences ->
                 preferences[TOKEN_KEY] = token
                 preferences[IS_LOGIN_KEY] = true
-                Log.d("UserPreferences", "Token Saved in Session: $token")
             }
         }
     }
@@ -39,7 +35,6 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
     suspend fun saveBaseUrl(baseUrl: String) {
         dataStore.edit { preferences ->
             preferences[BASE_URL_KEY] = baseUrl
-            Log.d("UserPreferences", "Base URL Saved in Session: $baseUrl")
         }
     }
 

@@ -18,6 +18,7 @@ import com.example.clientaccesscontrol.databinding.ActivityMainBinding
 import com.example.clientaccesscontrol.databinding.CustomLogoutDialogBinding
 import com.example.clientaccesscontrol.view.ui.network.NetworkActivity
 import com.example.clientaccesscontrol.view.ui.clientdetail.ClientDetailActivity
+import com.example.clientaccesscontrol.view.ui.connect.ConnectActivity
 import com.example.clientaccesscontrol.view.ui.filter.FilterBottomSheet
 import com.example.clientaccesscontrol.view.ui.newclientprofile.NewClientProfileActivity
 import com.example.clientaccesscontrol.view.utils.FactoryVM
@@ -125,6 +126,8 @@ class MainActivity : AppCompatActivity() {
         bindingDialog.btYesLogout.setOnClickListener {
             dialog.dismiss()
             mainViewModel.logout()
+            val intent = Intent(this, ConnectActivity::class.java)
+            startActivity(intent)
             finish()
         }
         bindingDialog.btCancelLogout.setOnClickListener {
