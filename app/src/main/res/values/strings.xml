@@ -29,9 +29,9 @@
     <string name="delete_title_dialog">Delete the client?</string>
     <string name="logout_title_dialog">Logout?</string>
 
-    <string name="logout_desc_dialog">The client will be cut out of the network</string>
-    <string name="save_desc_dialog">The client will be cut out of the network</string>
-    <string name="delete_desc_dialog">The client will be cut out of the network</string>
+    <string name="logout_desc_dialog">You will be disconnected from the server</string>
+    <string name="save_desc_dialog">This changes will be saved</string>
+    <string name="delete_desc_dialog">This thing will be deleted</string>
 
     <string name="tv_password_desc">Password Input Form</string>
     <string name="tv_username_desc">Username Input Form</string>

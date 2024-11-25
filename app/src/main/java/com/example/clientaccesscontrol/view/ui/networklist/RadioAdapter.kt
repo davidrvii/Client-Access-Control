@@ -1,11 +1,13 @@
 package com.example.clientaccesscontrol.view.ui.networklist
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clientaccesscontrol.data.response.RadiosItem
 import com.example.clientaccesscontrol.databinding.NetworkListBinding
+import com.example.clientaccesscontrol.view.ui.networkfilter.NetworkFilterActivity
 
 class RadioAdapter(private var listRadioAdapter: List<RadiosItem>) :
     RecyclerView.Adapter<RadioAdapter.ViewHolder>() {
@@ -15,6 +17,15 @@ class RadioAdapter(private var listRadioAdapter: List<RadiosItem>) :
 
         fun bind(item: RadiosItem) {
             binding.tvNetworkName.text = item.type.toString()
+
+            binding.root.setOnClickListener {
+                val intent = Intent(itemView.context, NetworkFilterActivity::class.java).apply {
+                    putExtra(NetworkFilterActivity.NETWORK_NAME, item.type)
+                    putExtra(NetworkFilterActivity.NETWORK_ID, item.radioId)
+                    putExtra(NetworkFilterActivity.NETWORK, "Radio")
+                }
+                itemView.context.startActivity(intent)
+            }
         }
     }
 

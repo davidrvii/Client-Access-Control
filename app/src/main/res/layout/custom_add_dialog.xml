@@ -6,7 +6,8 @@
     android:layout_marginHorizontal="40dp"
     android:background="@drawable/rounded_white_rectangle"
     android:elevation="12dp"
-    app:cardCornerRadius="24dp">
+    app:cardCornerRadius="24dp"
+    android:id="@+id/AddCard">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cvLogout"
@@ -16,10 +17,11 @@
         android:padding="32dp">
 
         <TextView
-            android:id="@+id/tvLogout"
+            android:id="@+id/tvAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_title_dialog"
+            android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -28,7 +30,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvLogoutDesc"
+            android:id="@+id/tvAddDesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -37,21 +39,39 @@
             android:textColor="#757575"
             android:textSize="12sp"
             android:textStyle="normal"
-            app:layout_constraintEnd_toEndOf="@id/tvLogout"
-            app:layout_constraintStart_toStartOf="@id/tvLogout"
-            app:layout_constraintTop_toBottomOf="@id/tvLogout" />
+            app:layout_constraintEnd_toEndOf="@id/tvAdd"
+            app:layout_constraintStart_toStartOf="@id/tvAdd"
+            app:layout_constraintTop_toBottomOf="@id/tvAdd" />
+
+        <EditText
+            android:id="@+id/etNetworkUpload"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rounded_white_stroke_rectangle"
+            android:hint="@string/client_name"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:padding="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="#757575"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/btChoose"
+            app:layout_constraintTop_toBottomOf="@id/tvAddDesc"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/btChoose"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvLogoutDesc">
+            app:layout_constraintTop_toBottomOf="@id/etNetworkUpload">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btCancelLogout"
+                android:id="@+id/btCancelAdd"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -66,11 +86,11 @@
                 app:strokeColor="#222222" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btYesLogout"
+                android:id="@+id/btYesAdd"
+                style="@style/Widget.Material3.Button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#222222"
-                style="@style/Widget.Material3.Button"
                 android:contentDescription="@string/bt_delete_yes"
                 android:text="@string/add"
                 android:textAlignment="center"

@@ -9,7 +9,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.clientaccesscontrol.R
 import com.example.clientaccesscontrol.databinding.ActivityNetworkBinding
-import com.example.clientaccesscontrol.view.ui.home.MainActivity
 import com.example.clientaccesscontrol.view.ui.networklist.NetworkListActivity
 
 class NetworkActivity : AppCompatActivity() {
@@ -31,8 +30,6 @@ class NetworkActivity : AppCompatActivity() {
         setupClickListener()
 
         binding.btBack.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
             finish()
         }
     }

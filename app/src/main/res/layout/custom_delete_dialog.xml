@@ -6,7 +6,8 @@
     android:layout_marginHorizontal="40dp"
     android:background="@color/white"
     android:elevation="12dp"
-    app:cardCornerRadius="24dp">
+    app:cardCornerRadius="24dp"
+    android:id="@+id/DeleteCard">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cvDelete"
@@ -23,6 +24,7 @@
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -52,7 +54,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btCancelDelete"
-                style="@style/Widget.Material3.Button.OutlinedButton"
+                style="@style/Widget.Material3.Button.IconButton.Outlined"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/bt_delete_cancel"
@@ -67,8 +69,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btYesDelete"
-                android:layout_width="0dp"
                 style="@style/Widget.Material3.Button"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#E22F2F"
                 android:contentDescription="@string/bt_delete_yes"

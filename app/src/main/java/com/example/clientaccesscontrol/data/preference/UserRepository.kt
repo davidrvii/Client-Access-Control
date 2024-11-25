@@ -3,6 +3,16 @@ package com.example.clientaccesscontrol.data.preference
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import com.example.clientaccesscontrol.data.response.CreateBTSResponse
+import com.example.clientaccesscontrol.data.response.CreateChannelWidthResponse
+import com.example.clientaccesscontrol.data.response.CreateModeResponse
+import com.example.clientaccesscontrol.data.response.CreatePresharedKeyResponse
+import com.example.clientaccesscontrol.data.response.CreateRadioResponse
+import com.example.clientaccesscontrol.data.response.DeleteBTSResponse
+import com.example.clientaccesscontrol.data.response.DeleteChannelWidthResponse
+import com.example.clientaccesscontrol.data.response.DeleteModeResponse
+import com.example.clientaccesscontrol.data.response.DeletePresharedKeyResponse
+import com.example.clientaccesscontrol.data.response.DeleteRadioResponse
 import com.example.clientaccesscontrol.data.response.GetBTSResponse
 import com.example.clientaccesscontrol.data.response.GetChannelWidthResponse
 import com.example.clientaccesscontrol.data.response.GetModeResponse
@@ -16,7 +26,7 @@ import kotlinx.coroutines.flow.Flow
 class UserRepository private constructor(
     private val userPreference: UserPreference,
     /*private val apiServiceMikrotik: ServiceApiMikrotik,*/
-    private val apiServiceCAC: ServiceApiCAC
+    private val apiServiceCAC: ServiceApiCAC,
 ) {
 
     private suspend fun saveToken(token: String) {
@@ -36,7 +46,7 @@ class UserRepository private constructor(
     suspend fun register(
         username: String,
         password: String,
-        ipAddress: String
+        ipAddress: String,
     ): RegisterResponse {
         Log.d("UserRepository", "Starting register with username: $username, ipAddress: $ipAddress")
         return apiServiceCAC.register(username, password, ipAddress)
@@ -45,7 +55,7 @@ class UserRepository private constructor(
     suspend fun login(
         ipAddress: String,
         username: String,
-        password: String
+        password: String,
     ) {
         Log.d("UserRepository", "Starting login with username: $username, ipAddress: $ipAddress")
         val loginResponse = apiServiceCAC.login(ipAddress, username, password)
@@ -65,8 +75,75 @@ class UserRepository private constructor(
         userPreference.logout()
     }
 
+    suspend fun createBTS(
+        token: String,
+        bts: String,
+    ): LiveData<Results<CreateBTSResponse>> = liveData {
+        Log.d("UserRepository", "Starting create BTS with token: $token, bts: $bts")
+        emit(Results.Loading)
+        try {
+            val response = apiServiceCAC.createBTS(token, bts)
+            emit(Results.Success(response))
+        } catch (e: Exception) {
+            emit(Results.Error(e.message.toString()))
+            Log.d("UserRepository", "Error creating BTS: ${e.message}")
+        }
+    }
+
+    suspend fun createRadio(
+        token: String,
+        radio: String,
+    ): LiveData<Results<CreateRadioResponse>> = liveData {
+        emit(Results.Loading)
+        try {
+            val response = apiServiceCAC.createRadio(token, radio)
+            emit(Results.Success(response))
+        } catch (e: Exception) {
+            emit(Results.Error(e.message.toString()))
+        }
+    }
+
+    suspend fun createMode(
+        token: String,
+        mode: String,
+    ): LiveData<Results<CreateModeResponse>> = liveData {
+        emit(Results.Loading)
+        try {
+            val response = apiServiceCAC.createMode(token, mode)
+            emit(Results.Success(response))
+        } catch (e: Exception) {
+            emit(Results.Error(e.message.toString()))
+        }
+    }
+
+    suspend fun createPresharedKey(
+        token: String,
+        presharedKey: String,
+    ): LiveData<Results<CreatePresharedKeyResponse>> = liveData {
+        emit(Results.Loading)
+        try {
+            val response = apiServiceCAC.createPresharedKey(token, presharedKey)
+            emit(Results.Success(response))
+        } catch (e: Exception) {
+            emit(Results.Error(e.message.toString()))
+        }
+    }
+
+    suspend fun createChannelWidth(
+        token: String,
+        channelWidth: String,
+    ): LiveData<Results<CreateChannelWidthResponse>> = liveData {
+        emit(Results.Loading)
+        try {
+            val response = apiServiceCAC.createChannelWidth(token, channelWidth)
+            emit(Results.Success(response))
+        } catch (e: Exception) {
+            emit(Results.Error(e.message.toString()))
+        }
+    }
+
     suspend fun getBTS(
-        token: String
+        token: String,
     ): LiveData<Results<GetBTSResponse>> = liveData {
         emit(Results.Loading)
         try {
@@ -78,7 +155,7 @@ class UserRepository private constructor(
     }
 
     suspend fun getRadio(
-        token: String
+        token: String,
     ): LiveData<Results<GetRadioResponse>> = liveData {
         emit(Results.Loading)
         try {
@@ -90,7 +167,7 @@ class UserRepository private constructor(
     }
 
     suspend fun getMode(
-        token: String
+        token: String,
     ): LiveData<Results<GetModeResponse>> = liveData {
         emit(Results.Loading)
         try {
@@ -102,7 +179,7 @@ class UserRepository private constructor(
     }
 
     suspend fun getChannelWidth(
-        token: String
+        token: String,
     ): LiveData<Results<GetChannelWidthResponse>> = liveData {
         emit(Results.Loading)
         try {
@@ -114,7 +191,7 @@ class UserRepository private constructor(
     }
 
     suspend fun getPresharedKey(
-        token: String
+        token: String,
     ): LiveData<Results<GetPresharedKeyResponse>> = liveData {
         emit(Results.Loading)
         try {
@@ -125,13 +202,91 @@ class UserRepository private constructor(
         }
     }
 
+    suspend fun deleteBTS(
+        token: String,
+        id: Int,
+    ): LiveData<Results<DeleteBTSResponse>> = liveData {
+        emit(Results.Loading)
+        try {
+            val response = apiServiceCAC.deleteBTS("Bearer $token", id)
+            emit(Results.Success(response))
+        } catch (e: Exception) {
+            emit(Results.Error(e.message.toString()))
+        }
+    }
+
+    suspend fun deleteMode(
+        token: String,
+        id: Int,
+    ): LiveData<Results<DeleteModeResponse>> = liveData {
+        emit(Results.Loading)
+        try {
+            val response = apiServiceCAC.deleteMode("Bearer $token", id)
+            emit(Results.Success(response))
+        } catch (e: Exception) {
+            emit(Results.Error(e.message.toString()))
+        }
+    }
+
+    suspend fun deleteRadio(
+        token: String,
+        id: Int,
+    ): LiveData<Results<DeleteRadioResponse>> = liveData {
+        emit(Results.Loading)
+        try {
+            val response = apiServiceCAC.deleteRadio("Bearer $token", id)
+            emit(Results.Success(response))
+        } catch (e: Exception) {
+            emit(Results.Error(e.message.toString()))
+        }
+    }
+
+    suspend fun deleteChannelWidth(
+        token: String,
+        id: Int,
+    ): LiveData<Results<DeleteChannelWidthResponse>> = liveData {
+        emit(Results.Loading)
+        try {
+            val response = apiServiceCAC.deleteChannelWidth("Bearer $token", id)
+            emit(Results.Success(response))
+        } catch (e: Exception) {
+            emit(Results.Error(e.message.toString()))
+        }
+    }
+
+    suspend fun deletePresharedKey(
+        token: String,
+        id: Int,
+    ): LiveData<Results<DeletePresharedKeyResponse>> = liveData {
+        emit(Results.Loading)
+        try {
+            val response = apiServiceCAC.deletePresharedKey("Bearer $token", id)
+            emit(Results.Success(response))
+        } catch (e: Exception) {
+            emit(Results.Error(e.message.toString()))
+        }
+    }
+
+//    suspend fun deleteClient(
+//        token: String,
+//        id: Int
+//    ): LiveData<Results<DeleteClientResponse>> = liveData {
+//        emit(Results.Loading)
+//        try {
+//            val response = apiServiceCAC.deleteClient("Bearer $token", id)
+//            emit(Results.Success(response))
+//        } catch (e: Exception) {
+//            emit(Results.Error(e.message.toString()))
+//        }
+//    }
+
     companion object {
         @Volatile
         private var instance: UserRepository? = null
         fun getInstance(
             userPreference: UserPreference,
             /*apiServiceMikrotik: ServiceApiMikrotik,*/
-            apiServiceCAC: ServiceApiCAC
+            apiServiceCAC: ServiceApiCAC,
         ): UserRepository =
             instance ?: synchronized(this) {
                 instance ?: UserRepository(userPreference, /*apiServiceMikrotik,*/ apiServiceCAC)

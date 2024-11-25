@@ -6,7 +6,8 @@
     android:layout_marginHorizontal="40dp"
     android:background="@color/white"
     android:elevation="12dp"
-    app:cardCornerRadius="24dp">
+    app:cardCornerRadius="24dp"
+    android:id="@+id/LogoutCard">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cvLogout"
@@ -14,6 +15,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:padding="32dp">
+
         <TextView
             android:id="@+id/tvLogout"
             android:layout_width="wrap_content"
@@ -52,7 +54,6 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btCancelLogout"
                 style="@style/Widget.Material3.Button.IconButton.Outlined"
-                app:strokeColor="#E22F2F"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/bt_delete_cancel"
@@ -62,14 +63,15 @@
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.475" />
+                app:layout_constraintWidth_percent="0.475"
+                app:strokeColor="#E22F2F" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btYesLogout"
+                style="@style/Widget.Material3.Button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#E22F2F"
-                style="@style/Widget.Material3.Button"
                 android:contentDescription="@string/bt_delete_yes"
                 android:text="@string/logout"
                 android:textAlignment="center"

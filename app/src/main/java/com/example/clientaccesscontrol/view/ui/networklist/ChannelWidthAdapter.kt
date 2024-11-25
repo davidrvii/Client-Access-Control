@@ -1,11 +1,13 @@
 package com.example.clientaccesscontrol.view.ui.networklist
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clientaccesscontrol.data.response.ChannelWidthsItem
 import com.example.clientaccesscontrol.databinding.NetworkListBinding
+import com.example.clientaccesscontrol.view.ui.networkfilter.NetworkFilterActivity
 
 class ChannelWidthAdapter(private var listChannelWidthAdapter: List<ChannelWidthsItem>) :
     RecyclerView.Adapter<ChannelWidthAdapter.ViewHolder>() {
@@ -15,6 +17,15 @@ class ChannelWidthAdapter(private var listChannelWidthAdapter: List<ChannelWidth
 
         fun bind(item: ChannelWidthsItem) {
             binding.tvNetworkName.text = item.channelWidth.toString()
+
+            binding.root.setOnClickListener {
+                val intent = Intent(itemView.context, NetworkFilterActivity::class.java).apply {
+                    putExtra(NetworkFilterActivity.NETWORK_NAME, item.channelWidth)
+                    putExtra(NetworkFilterActivity.NETWORK_ID, item.channelWidthId)
+                    putExtra(NetworkFilterActivity.NETWORK, "Channel Width")
+                }
+                itemView.context.startActivity(intent)
+            }
         }
     }
 
