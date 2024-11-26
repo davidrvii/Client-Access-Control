@@ -10,11 +10,13 @@ import com.example.clientaccesscontrol.data.response.DeleteChannelWidthResponse
 import com.example.clientaccesscontrol.data.response.DeleteModeResponse
 import com.example.clientaccesscontrol.data.response.DeletePresharedKeyResponse
 import com.example.clientaccesscontrol.data.response.DeleteRadioResponse
+import com.example.clientaccesscontrol.data.response.GetAccessResponse
 import com.example.clientaccesscontrol.data.response.GetBTSResponse
 import com.example.clientaccesscontrol.data.response.GetChannelWidthResponse
 import com.example.clientaccesscontrol.data.response.GetModeResponse
 import com.example.clientaccesscontrol.data.response.GetPresharedKeyResponse
 import com.example.clientaccesscontrol.data.response.GetRadioResponse
+import com.example.clientaccesscontrol.data.response.GetSpeedResponse
 import com.example.clientaccesscontrol.data.response.LoginResponse
 import com.example.clientaccesscontrol.data.response.RegisterResponse
 import retrofit2.http.DELETE
@@ -131,6 +133,16 @@ interface ServiceApiCAC {
         @Header("Authorization") token: String,
         @Path("id") id: Int,
     ): DeletePresharedKeyResponse
+
+    @GET("access")
+    suspend fun getAccess(
+        @Header("Authorization") token: String,
+    ): GetAccessResponse
+
+    @GET("speed")
+    suspend fun getSpeed(
+        @Header("Authorization") token: String,
+    ): GetSpeedResponse
 
 //    @DELETE("client/{id}")
 //    suspend fun deleteClient(

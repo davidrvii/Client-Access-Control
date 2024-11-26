@@ -107,19 +107,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
-                    android:id="@+id/etBTS"
-                    android:layout_width="match_parent"
+                <Spinner
+                    android:id="@+id/spBTS"
+                    android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/rounded_white_stroke_rectangle"
-                    android:hint="@string/client_BTS"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:padding="12dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="#757575"
-                    android:textSize="16sp"
+                    android:paddingHorizontal="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tvBTS"
                     app:layout_constraintTop_toBottomOf="@+id/tvBTS" />
 
@@ -132,22 +127,17 @@
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@id/etBTS"
-                    app:layout_constraintTop_toBottomOf="@id/etBTS" />
+                    app:layout_constraintStart_toStartOf="@id/spBTS"
+                    app:layout_constraintTop_toBottomOf="@id/spBTS" />
 
-                <EditText
-                    android:id="@+id/etMode"
-                    android:layout_width="match_parent"
+                <Spinner
+                    android:id="@+id/spMode"
+                    android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/rounded_white_stroke_rectangle"
-                    android:hint="@string/client_mode"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:padding="12dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="#757575"
-                    android:textSize="16sp"
+                    android:paddingHorizontal="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tvMode"
                     app:layout_constraintTop_toBottomOf="@+id/tvMode" />
 
@@ -160,8 +150,8 @@
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@id/etMode"
-                    app:layout_constraintTop_toBottomOf="@id/etMode" />
+                    app:layout_constraintStart_toStartOf="@id/spMode"
+                    app:layout_constraintTop_toBottomOf="@id/spMode" />
 
                 <EditText
                     android:id="@+id/etSSID"
@@ -172,7 +162,7 @@
                     android:hint="@string/client_ssid"
                     android:importantForAutofill="no"
                     android:inputType="text"
-                    android:padding="12dp"
+                    android:paddingHorizontal="16dp"
                     android:textColor="@color/black"
                     android:textColorHint="#757575"
                     android:textSize="16sp"
@@ -200,7 +190,7 @@
                     android:hint="@string/client_ip_internet"
                     android:importantForAutofill="no"
                     android:inputType="text"
-                    android:padding="12dp"
+                    android:paddingHorizontal="16dp"
                     android:textColor="@color/black"
                     android:textColorHint="#757575"
                     android:textSize="16sp"
@@ -219,19 +209,14 @@
                     app:layout_constraintStart_toStartOf="@id/etIPInternet"
                     app:layout_constraintTop_toBottomOf="@id/etIPInternet" />
 
-                <EditText
-                    android:id="@+id/etRadio"
+                <Spinner
+                    android:id="@+id/spRadio"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/rounded_white_stroke_rectangle"
-                    android:hint="@string/client_radio"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:padding="12dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="#757575"
-                    android:textSize="16sp"
+                    android:paddingHorizontal="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tvRadio"
                     app:layout_constraintTop_toBottomOf="@+id/tvRadio" />
 
@@ -244,8 +229,8 @@
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@id/etRadio"
-                    app:layout_constraintTop_toBottomOf="@id/etRadio" />
+                    app:layout_constraintStart_toStartOf="@id/spRadio"
+                    app:layout_constraintTop_toBottomOf="@id/spRadio" />
 
                 <EditText
                     android:id="@+id/etRadioName"
@@ -256,7 +241,7 @@
                     android:hint="@string/client_radio_name"
                     android:importantForAutofill="no"
                     android:inputType="text"
-                    android:padding="12dp"
+                    android:paddingHorizontal="16dp"
                     android:textColor="@color/black"
                     android:textColorHint="#757575"
                     android:textSize="16sp"
@@ -284,7 +269,7 @@
                     android:hint="@string/client_ip_radio"
                     android:importantForAutofill="no"
                     android:inputType="text"
-                    android:padding="12dp"
+                    android:paddingHorizontal="16dp"
                     android:textColor="@color/black"
                     android:textColorHint="#757575"
                     android:textSize="16sp"
@@ -312,7 +297,7 @@
                     android:hint="@string/client_frequency"
                     android:importantForAutofill="no"
                     android:inputType="text"
-                    android:padding="12dp"
+                    android:paddingHorizontal="16dp"
                     android:textColor="@color/black"
                     android:textColorHint="#757575"
                     android:textSize="16sp"
@@ -331,19 +316,14 @@
                     app:layout_constraintStart_toStartOf="@id/etFrequency"
                     app:layout_constraintTop_toBottomOf="@id/etFrequency" />
 
-                <EditText
-                    android:id="@+id/etChannelWidth"
+                <Spinner
+                    android:id="@+id/spChannelWidth"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/rounded_white_stroke_rectangle"
-                    android:hint="@string/client_channel_width"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:padding="12dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="#757575"
-                    android:textSize="16sp"
+                    android:paddingHorizontal="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tvChannelWidth"
                     app:layout_constraintTop_toBottomOf="@+id/tvChannelWidth"
                     tools:ignore="TextFields" />
@@ -357,8 +337,8 @@
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@id/etChannelWidth"
-                    app:layout_constraintTop_toBottomOf="@id/etChannelWidth" />
+                    app:layout_constraintStart_toStartOf="@id/spChannelWidth"
+                    app:layout_constraintTop_toBottomOf="@id/spChannelWidth" />
 
                 <EditText
                     android:id="@+id/etSignal"
@@ -369,7 +349,7 @@
                     android:hint="@string/client_signal"
                     android:importantForAutofill="no"
                     android:inputType="text"
-                    android:padding="12dp"
+                    android:paddingHorizontal="16dp"
                     android:textColor="@color/black"
                     android:textColorHint="#757575"
                     android:textSize="16sp"
@@ -388,19 +368,14 @@
                     app:layout_constraintStart_toStartOf="@id/etSignal"
                     app:layout_constraintTop_toBottomOf="@id/etSignal" />
 
-                <EditText
-                    android:id="@+id/etPresharedKey"
+                <Spinner
+                    android:id="@+id/spPresharedKey"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/rounded_white_stroke_rectangle"
-                    android:hint="@string/client_preshared_key"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:padding="12dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="#757575"
-                    android:textSize="16sp"
+                    android:paddingHorizontal="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tvPresharedKey"
                     app:layout_constraintTop_toBottomOf="@+id/tvPresharedKey" />
 
@@ -413,8 +388,8 @@
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@id/etPresharedKey"
-                    app:layout_constraintTop_toBottomOf="@id/etPresharedKey" />
+                    app:layout_constraintStart_toStartOf="@id/spPresharedKey"
+                    app:layout_constraintTop_toBottomOf="@id/spPresharedKey" />
 
                 <EditText
                     android:id="@+id/etAPLocation"
@@ -425,7 +400,7 @@
                     android:hint="@string/client_ap_location"
                     android:importantForAutofill="no"
                     android:inputType="text"
-                    android:padding="12dp"
+                    android:paddingHorizontal="16dp"
                     android:textColor="@color/black"
                     android:textColorHint="#757575"
                     android:textSize="16sp"
@@ -453,7 +428,7 @@
                     android:hint="@string/client_wlan_mac_address"
                     android:importantForAutofill="no"
                     android:inputType="text"
-                    android:padding="12dp"
+                    android:paddingHorizontal="16dp"
                     android:textColor="@color/black"
                     android:textColorHint="#757575"
                     android:textSize="16sp"
@@ -481,7 +456,7 @@
                     android:hint="@string/client_user_password"
                     android:importantForAutofill="no"
                     android:inputType="text"
-                    android:padding="12dp"
+                    android:paddingHorizontal="16dp"
                     android:textColor="@color/black"
                     android:textColorHint="#757575"
                     android:textSize="16sp"
@@ -510,7 +485,7 @@
                     android:hint="@string/client_comment"
                     android:importantForAutofill="no"
                     android:inputType="text"
-                    android:padding="12dp"
+                    android:paddingHorizontal="16dp"
                     android:textColor="@color/black"
                     android:textColorHint="#757575"
                     android:textSize="16sp"

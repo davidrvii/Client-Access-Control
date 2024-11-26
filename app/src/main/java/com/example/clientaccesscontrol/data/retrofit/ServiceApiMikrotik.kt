@@ -1,4 +1,3 @@
 package com.example.clientaccesscontrol.data.retrofit
 
-interface ServiceApiMikrotik {
-}
+interface ServiceApiMikrotik

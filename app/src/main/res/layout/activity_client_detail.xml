@@ -140,12 +140,11 @@
 
                 <Spinner
                     android:id="@+id/spInternetSpeed"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/rounded_white_stroke_rectangle"
                     android:paddingHorizontal="8dp"
-                    android:paddingVertical="12dp"
                     android:textColor="#757575"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tvInternetSpeed"
@@ -165,12 +164,11 @@
 
                 <Spinner
                     android:id="@+id/spInternetAccess"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/rounded_white_stroke_rectangle"
                     android:paddingHorizontal="8dp"
-                    android:paddingVertical="12dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tvInternetAccess"
                     app:layout_constraintTop_toBottomOf="@id/tvInternetAccess" />

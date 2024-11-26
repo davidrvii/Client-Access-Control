@@ -5,20 +5,28 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.clientaccesscontrol.R
+import com.example.clientaccesscontrol.data.result.Results
 import com.example.clientaccesscontrol.databinding.ActivityClientDetailBinding
 import com.example.clientaccesscontrol.databinding.CustomDeleteDialogBinding
 import com.example.clientaccesscontrol.view.ui.editrouter.EditRouterActivity
-import com.example.clientaccesscontrol.view.ui.home.MainActivity
+import com.example.clientaccesscontrol.view.utils.FactoryVM
 
 class ClientDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityClientDetailBinding
     private lateinit var bindingDialog: CustomDeleteDialogBinding
+    private val clientDetailViewModel by viewModels<ClientDetailVM> {
+        FactoryVM.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,16 +40,87 @@ class ClientDetailActivity : AppCompatActivity() {
             insets
         }
 
+        setupActionButton()
+        setupActionSpinner()
+    }
+
+    private fun setupActionSpinner() {
+        clientDetailViewModel.getAccess.observe(this) { result ->
+            when (result) {
+                is Results.Success -> {
+                    val accessList =
+                        result.data.access?.mapNotNull { it?.internetAccess } ?: emptyList()
+                    val accessAdapter = ArrayAdapter(this, R.layout.spinner_dropdown_item, accessList)
+                    accessAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+                    binding.spInternetAccess.adapter = accessAdapter
+                }
+
+                is Results.Error -> Toast.makeText(
+                    this,
+                    "Error: ${result.error}",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                is Results.Loading -> {}
+            }
+
+            binding.spInternetAccess.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: android.view.View?,
+                        position: Int,
+                        id: Long,
+                    ) {
+                        val selectedSize = parent?.getItemAtPosition(position).toString()
+                    }
+
+                    override fun onNothingSelected(p0: AdapterView<*>?) {}
+                }
+        }
+
+        clientDetailViewModel.getSpeed.observe(this) { result ->
+            when (result) {
+                is Results.Success -> {
+                    val speedList =
+                        result.data.speed?.mapNotNull { it?.internetSpeed } ?: emptyList()
+                    val speedAdapter = ArrayAdapter(this, R.layout.spinner_dropdown_item, speedList)
+                    speedAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+                    binding.spInternetSpeed.adapter = speedAdapter
+                }
+
+                is Results.Error -> Toast.makeText(
+                    this,
+                    "Error: ${result.error}",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                is Results.Loading -> {}
+            }
+
+            binding.spInternetSpeed.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: android.view.View?,
+                        position: Int,
+                        id: Long,
+                    ) {
+                        val selectedSize = parent?.getItemAtPosition(position).toString()
+                    }
+
+                    override fun onNothingSelected(p0: AdapterView<*>?) {}
+                }
+        }
+    }
+
+    private fun setupActionButton() {
         binding.btDelete.setOnClickListener {
             showCustomDialog()
         }
-
         binding.btBack.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
             finish()
         }
-
         binding.btEdit.setOnClickListener {
             val intent = Intent(this, EditRouterActivity::class.java)
             startActivity(intent)

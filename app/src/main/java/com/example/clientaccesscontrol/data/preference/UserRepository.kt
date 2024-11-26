@@ -13,11 +13,13 @@ import com.example.clientaccesscontrol.data.response.DeleteChannelWidthResponse
 import com.example.clientaccesscontrol.data.response.DeleteModeResponse
 import com.example.clientaccesscontrol.data.response.DeletePresharedKeyResponse
 import com.example.clientaccesscontrol.data.response.DeleteRadioResponse
+import com.example.clientaccesscontrol.data.response.GetAccessResponse
 import com.example.clientaccesscontrol.data.response.GetBTSResponse
 import com.example.clientaccesscontrol.data.response.GetChannelWidthResponse
 import com.example.clientaccesscontrol.data.response.GetModeResponse
 import com.example.clientaccesscontrol.data.response.GetPresharedKeyResponse
 import com.example.clientaccesscontrol.data.response.GetRadioResponse
+import com.example.clientaccesscontrol.data.response.GetSpeedResponse
 import com.example.clientaccesscontrol.data.response.RegisterResponse
 import com.example.clientaccesscontrol.data.result.Results
 import com.example.clientaccesscontrol.data.retrofit.ServiceApiCAC
@@ -261,6 +263,30 @@ class UserRepository private constructor(
         emit(Results.Loading)
         try {
             val response = apiServiceCAC.deletePresharedKey("Bearer $token", id)
+            emit(Results.Success(response))
+        } catch (e: Exception) {
+            emit(Results.Error(e.message.toString()))
+        }
+    }
+
+    suspend fun getAccess(
+        token: String,
+    ): LiveData<Results<GetAccessResponse>> = liveData {
+        emit(Results.Loading)
+        try {
+            val response = apiServiceCAC.getAccess("Bearer $token")
+            emit(Results.Success(response))
+        } catch (e: Exception) {
+            emit(Results.Error(e.message.toString()))
+        }
+    }
+
+    suspend fun getSpeed(
+        token: String
+    ): LiveData<Results<GetSpeedResponse>> = liveData {
+        emit(Results.Loading)
+        try {
+            val response = apiServiceCAC.getSpeed("Bearer $token")
             emit(Results.Success(response))
         } catch (e: Exception) {
             emit(Results.Error(e.message.toString()))
