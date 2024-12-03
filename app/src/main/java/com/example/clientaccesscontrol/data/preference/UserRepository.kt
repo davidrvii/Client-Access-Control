@@ -17,6 +17,7 @@ import com.example.clientaccesscontrol.data.response.GetAccessResponse
 import com.example.clientaccesscontrol.data.response.GetAllClientResponse
 import com.example.clientaccesscontrol.data.response.GetBTSResponse
 import com.example.clientaccesscontrol.data.response.GetChannelWidthResponse
+import com.example.clientaccesscontrol.data.response.GetClientDetailResponse
 import com.example.clientaccesscontrol.data.response.GetModeResponse
 import com.example.clientaccesscontrol.data.response.GetPresharedKeyResponse
 import com.example.clientaccesscontrol.data.response.GetRadioResponse
@@ -300,6 +301,19 @@ class UserRepository private constructor(
         emit(Results.Loading)
         try {
             val response = apiServiceCAC.getAllClient("Bearer $token")
+            emit(Results.Success(response))
+        } catch (e: Exception) {
+            emit(Results.Error(e.message.toString()))
+        }
+    }
+
+    suspend fun getClientDetail(
+        token: String,
+        id: Int
+    ): LiveData<Results<GetClientDetailResponse>> = liveData {
+        emit(Results.Loading)
+        try {
+            val response = apiServiceCAC.getClientDetail("Bearer $token", id)
             emit(Results.Success(response))
         } catch (e: Exception) {
             emit(Results.Error(e.message.toString()))

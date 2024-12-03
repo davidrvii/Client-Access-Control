@@ -14,6 +14,7 @@ import com.example.clientaccesscontrol.data.response.GetAccessResponse
 import com.example.clientaccesscontrol.data.response.GetAllClientResponse
 import com.example.clientaccesscontrol.data.response.GetBTSResponse
 import com.example.clientaccesscontrol.data.response.GetChannelWidthResponse
+import com.example.clientaccesscontrol.data.response.GetClientDetailResponse
 import com.example.clientaccesscontrol.data.response.GetModeResponse
 import com.example.clientaccesscontrol.data.response.GetPresharedKeyResponse
 import com.example.clientaccesscontrol.data.response.GetRadioResponse
@@ -149,6 +150,12 @@ interface ServiceApiCAC {
     suspend fun getAllClient(
         @Header("Authorization") token: String,
     ): GetAllClientResponse
+
+    @GET("client/{id}")
+    suspend fun getClientDetail(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): GetClientDetailResponse
 
 //    @DELETE("client/{id}")
 //    suspend fun deleteClient(
