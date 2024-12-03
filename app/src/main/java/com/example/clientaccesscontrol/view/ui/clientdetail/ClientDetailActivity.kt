@@ -24,6 +24,7 @@ class ClientDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityClientDetailBinding
     private lateinit var bindingDialog: CustomDeleteDialogBinding
+    private var clientId: Int = 0
     private val clientDetailViewModel by viewModels<ClientDetailVM> {
         FactoryVM.getInstance(this)
     }
@@ -40,6 +41,7 @@ class ClientDetailActivity : AppCompatActivity() {
             insets
         }
 
+        clientId = intent.getIntExtra(CLIENT_ID, 0)
         setupActionButton()
         setupActionSpinner()
     }
@@ -50,7 +52,8 @@ class ClientDetailActivity : AppCompatActivity() {
                 is Results.Success -> {
                     val accessList =
                         result.data.access?.mapNotNull { it?.internetAccess } ?: emptyList()
-                    val accessAdapter = ArrayAdapter(this, R.layout.spinner_dropdown_item, accessList)
+                    val accessAdapter =
+                        ArrayAdapter(this, R.layout.spinner_dropdown_item, accessList)
                     accessAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
                     binding.spInternetAccess.adapter = accessAdapter
                 }
@@ -146,5 +149,9 @@ class ClientDetailActivity : AppCompatActivity() {
         }
 
         dialog.show()
+    }
+
+    companion object {
+        const val CLIENT_ID = "CLIENT_ID"
     }
 }

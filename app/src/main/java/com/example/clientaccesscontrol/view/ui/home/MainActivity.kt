@@ -15,13 +15,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clientaccesscontrol.R
+import com.example.clientaccesscontrol.data.result.Results
 import com.example.clientaccesscontrol.databinding.ActivityMainBinding
 import com.example.clientaccesscontrol.databinding.CustomLogoutDialogBinding
-import com.example.clientaccesscontrol.view.ui.network.NetworkActivity
-import com.example.clientaccesscontrol.view.ui.clientdetail.ClientDetailActivity
 import com.example.clientaccesscontrol.view.ui.connect.ConnectActivity
 import com.example.clientaccesscontrol.view.ui.filter.FilterBottomSheet
+import com.example.clientaccesscontrol.view.ui.network.NetworkActivity
 import com.example.clientaccesscontrol.view.ui.newclientprofile.NewClientProfileActivity
 import com.example.clientaccesscontrol.view.utils.FactoryVM
 
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var bindingDialog: CustomLogoutDialogBinding
+    private lateinit var clientAdapter: ClientAdapter
     private val mainViewModel by viewModels<MainVM> {
         FactoryVM.getInstance(this)
     }
@@ -64,10 +66,28 @@ class MainActivity : AppCompatActivity() {
         buttonMenuAction()
         searchBarAction()
         buttonNewClientAction()
+        setupClientList()
+    }
 
-        binding.cvClient.setOnClickListener {
-            val intent = Intent(this, ClientDetailActivity::class.java)
-            startActivity(intent)
+    private fun setupClientList() {
+        mainViewModel.getAllClient.observe(this) { result ->
+            when (result) {
+                is Results.Success -> {
+                    clientAdapter.updateData(result.data.allClient?.filterNotNull() ?: emptyList())
+                }
+
+                is Results.Error -> {}
+                is Results.Loading -> {}
+            }
+        }
+        setupClientRecyclerView()
+    }
+
+    private fun setupClientRecyclerView() {
+        clientAdapter = ClientAdapter(emptyList())
+        binding.rvClientList.apply {
+            adapter = clientAdapter
+            layoutManager = LinearLayoutManager(context)
         }
     }
 

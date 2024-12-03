@@ -14,6 +14,7 @@ import com.example.clientaccesscontrol.data.response.DeleteModeResponse
 import com.example.clientaccesscontrol.data.response.DeletePresharedKeyResponse
 import com.example.clientaccesscontrol.data.response.DeleteRadioResponse
 import com.example.clientaccesscontrol.data.response.GetAccessResponse
+import com.example.clientaccesscontrol.data.response.GetAllClientResponse
 import com.example.clientaccesscontrol.data.response.GetBTSResponse
 import com.example.clientaccesscontrol.data.response.GetChannelWidthResponse
 import com.example.clientaccesscontrol.data.response.GetModeResponse
@@ -287,6 +288,18 @@ class UserRepository private constructor(
         emit(Results.Loading)
         try {
             val response = apiServiceCAC.getSpeed("Bearer $token")
+            emit(Results.Success(response))
+        } catch (e: Exception) {
+            emit(Results.Error(e.message.toString()))
+        }
+    }
+
+    suspend fun getAllClient(
+        token: String
+    ): LiveData<Results<GetAllClientResponse>> = liveData {
+        emit(Results.Loading)
+        try {
+            val response = apiServiceCAC.getAllClient("Bearer $token")
             emit(Results.Success(response))
         } catch (e: Exception) {
             emit(Results.Error(e.message.toString()))

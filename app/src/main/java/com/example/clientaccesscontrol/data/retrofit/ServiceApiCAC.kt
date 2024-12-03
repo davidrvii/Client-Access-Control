@@ -11,6 +11,7 @@ import com.example.clientaccesscontrol.data.response.DeleteModeResponse
 import com.example.clientaccesscontrol.data.response.DeletePresharedKeyResponse
 import com.example.clientaccesscontrol.data.response.DeleteRadioResponse
 import com.example.clientaccesscontrol.data.response.GetAccessResponse
+import com.example.clientaccesscontrol.data.response.GetAllClientResponse
 import com.example.clientaccesscontrol.data.response.GetBTSResponse
 import com.example.clientaccesscontrol.data.response.GetChannelWidthResponse
 import com.example.clientaccesscontrol.data.response.GetModeResponse
@@ -134,15 +135,20 @@ interface ServiceApiCAC {
         @Path("id") id: Int,
     ): DeletePresharedKeyResponse
 
-    @GET("access")
+    @GET("access/")
     suspend fun getAccess(
         @Header("Authorization") token: String,
     ): GetAccessResponse
 
-    @GET("speed")
+    @GET("speed/")
     suspend fun getSpeed(
         @Header("Authorization") token: String,
     ): GetSpeedResponse
+
+    @GET("client/")
+    suspend fun getAllClient(
+        @Header("Authorization") token: String,
+    ): GetAllClientResponse
 
 //    @DELETE("client/{id}")
 //    suspend fun deleteClient(
