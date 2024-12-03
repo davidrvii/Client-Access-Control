@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.widget.AdapterView
@@ -12,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.clientaccesscontrol.R
@@ -79,8 +81,9 @@ class ClientDetailActivity : AppCompatActivity() {
                         binding.tvClientComment.text = clientDetail.comment
                     }
                 }
-                is Results.Error -> { }
-                is Results.Loading -> { }
+
+                is Results.Error -> {}
+                is Results.Loading -> {}
             }
         }
     }
@@ -102,11 +105,16 @@ class ClientDetailActivity : AppCompatActivity() {
                                 is Results.Success -> {
                                     val clientDetail = accessResult.data.clientDetail?.firstOrNull()
                                     if (clientDetail != null) {
-                                        binding.spInternetAccess.setSelection(accessList.indexOf(clientDetail.internetAccess))
+                                        binding.spInternetAccess.setSelection(
+                                            accessList.indexOf(
+                                                clientDetail.internetAccess
+                                            )
+                                        )
                                     }
                                 }
-                                is Results.Error -> { }
-                                is Results.Loading -> { }
+
+                                is Results.Error -> {}
+                                is Results.Loading -> {}
                             }
                         }
                     }
@@ -151,11 +159,16 @@ class ClientDetailActivity : AppCompatActivity() {
                                 is Results.Success -> {
                                     val clientDetail = speedResult.data.clientDetail?.firstOrNull()
                                     if (clientDetail != null) {
-                                        binding.spInternetSpeed.setSelection(speedList.indexOf(clientDetail.internetSpeed))
+                                        binding.spInternetSpeed.setSelection(
+                                            speedList.indexOf(
+                                                clientDetail.internetSpeed
+                                            )
+                                        )
                                     }
                                 }
-                                is Results.Error -> { }
-                                is Results.Loading -> { }
+
+                                is Results.Error -> {}
+                                is Results.Loading -> {}
                             }
                         }
                     }
@@ -202,16 +215,27 @@ class ClientDetailActivity : AppCompatActivity() {
     private fun showCustomDialog() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
         bindingDialog = CustomDeleteDialogBinding.inflate(layoutInflater)
+
         dialog.setContentView(bindingDialog.root)
         dialog.setCancelable(true)
-        val height = WindowManager.LayoutParams.WRAP_CONTENT
-        val width = WindowManager.LayoutParams.WRAP_CONTENT
-        dialog.window?.setLayout(width, height)
+
+        dialog.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val cardView = bindingDialog.root.findViewById<CardView>(R.id.DeleteCard)
+        val layoutParams = cardView.layoutParams as ViewGroup.MarginLayoutParams
+        val margin = (40 * resources.displayMetrics.density).toInt()
+        layoutParams.setMargins(margin, 0, margin, 0)
+        cardView.layoutParams = layoutParams
 
         bindingDialog.btYesDelete.setOnClickListener {
             dialog.dismiss()
+            finish()
         }
         bindingDialog.btCancelDelete.setOnClickListener {
             dialog.dismiss()

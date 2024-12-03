@@ -2,6 +2,7 @@ package com.example.clientaccesscontrol.view.ui.editrouter
 
 import android.app.Dialog
 import android.os.Bundle
+import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.widget.AdapterView
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.clientaccesscontrol.R
@@ -224,19 +226,29 @@ class EditRouterActivity : AppCompatActivity() {
     private fun showCustomDialog() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
         bindingDialog = CustomSaveDialogBinding.inflate(layoutInflater)
+
         dialog.setContentView(bindingDialog.root)
         dialog.setCancelable(true)
-        val height = WindowManager.LayoutParams.WRAP_CONTENT
-        val width = WindowManager.LayoutParams.WRAP_CONTENT
-        dialog.window?.setLayout(width, height)
 
+        dialog.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
-        bindingDialog.btYesLogout.setOnClickListener {
+        val cardView = bindingDialog.root.findViewById<CardView>(R.id.SaveCard)
+        val layoutParams = cardView.layoutParams as ViewGroup.MarginLayoutParams
+        val margin = (40 * resources.displayMetrics.density).toInt()
+        layoutParams.setMargins(margin, 0, margin, 0)
+        cardView.layoutParams = layoutParams
+
+        bindingDialog.btYesSave.setOnClickListener {
+            finish()
             dialog.dismiss()
         }
-        bindingDialog.btCancelLogout.setOnClickListener {
+        bindingDialog.btCancelSave.setOnClickListener {
             dialog.dismiss()
         }
         dialog.show()
