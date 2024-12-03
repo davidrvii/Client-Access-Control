@@ -24,6 +24,7 @@ class EditRouterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditRouterBinding
     private lateinit var bindingDialog: CustomSaveDialogBinding
+    private var clientId: Int = 0
     private val editRouterViewModel by viewModels<EditRouterVM> {
         FactoryVM.getInstance(this)
     }
@@ -40,8 +41,35 @@ class EditRouterActivity : AppCompatActivity() {
             insets
         }
 
+        clientId = intent.getIntExtra(CLIENT_ID, 0)
+        editRouterViewModel.getClientDetail(clientId)
         setupActionSpinner()
         setupActionButton()
+        setupEditHint()
+    }
+
+    private fun setupEditHint() {
+        editRouterViewModel.getClientDetail.observe(this) { result ->
+            when (result) {
+                is Results.Success -> {
+                    val clientDetail = result.data.clientDetail?.firstOrNull()
+                    if (clientDetail != null) {
+                        binding.etSSID.hint = clientDetail.ssid
+                        binding.etIPInternet.hint = clientDetail.ipAddress
+                        binding.etRadioName.hint = clientDetail.radioName
+                        binding.etIPRadio.hint = clientDetail.ipRadio
+                        binding.etFrequency.hint = clientDetail.frequency
+                        binding.etSignal.hint = clientDetail.radioSignal
+                        binding.etAPLocation.hint = clientDetail.apLocation
+                        binding.etWLANMacAddress.hint = clientDetail.wlanMacAddress
+                        binding.etPassword.hint = clientDetail.password
+                        binding.etComment.hint = clientDetail.comment
+                    }
+                }
+                is Results.Error -> {}
+                is Results.Loading -> {}
+            }
+        }
     }
 
     private fun setupActionSpinner() {
@@ -53,6 +81,26 @@ class EditRouterActivity : AppCompatActivity() {
                     val btsAdapter = ArrayAdapter(this, R.layout.spinner_dropdown_item, btsList)
                     btsAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
                     binding.spBTS.adapter = btsAdapter
+
+                    if (btsList.isNotEmpty()) {
+                        editRouterViewModel.getClientDetail.observe(this) { btsResult ->
+                            when (btsResult) {
+                                is Results.Success -> {
+                                    val clientDetail = btsResult.data.clientDetail?.firstOrNull()
+                                    if (clientDetail != null) {
+                                        binding.spBTS.setSelection(
+                                            btsList.indexOf(
+                                                clientDetail.bts
+                                            )
+                                        )
+                                    }
+                                }
+
+                                is Results.Error -> {}
+                                is Results.Loading -> {}
+                            }
+                        }
+                    }
                 }
 
                 is Results.Error -> {
@@ -86,6 +134,26 @@ class EditRouterActivity : AppCompatActivity() {
                     val modeAdapter = ArrayAdapter(this, R.layout.spinner_dropdown_item, modeList)
                     modeAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
                     binding.spMode.adapter = modeAdapter
+
+                    if (modeList.isNotEmpty()) {
+                        editRouterViewModel.getClientDetail.observe(this) { modeResult ->
+                            when (modeResult) {
+                                is Results.Success -> {
+                                    val clientDetail = modeResult.data.clientDetail?.firstOrNull()
+                                    if (clientDetail != null) {
+                                        binding.spMode.setSelection(
+                                            modeList.indexOf(
+                                                clientDetail.mode
+                                            )
+                                        )
+                                    }
+                                }
+
+                                is Results.Error -> {}
+                                is Results.Loading -> {}
+                            }
+                        }
+                    }
                 }
 
                 is Results.Error -> {
@@ -119,6 +187,26 @@ class EditRouterActivity : AppCompatActivity() {
                     val radioAdapter = ArrayAdapter(this, R.layout.spinner_dropdown_item, radioList)
                     radioAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
                     binding.spRadio.adapter = radioAdapter
+
+                    if (radioList.isNotEmpty()) {
+                        editRouterViewModel.getClientDetail.observe(this) { radioResult ->
+                            when (radioResult) {
+                                is Results.Success -> {
+                                    val clientDetail = radioResult.data.clientDetail?.firstOrNull()
+                                    if (clientDetail != null) {
+                                        binding.spRadio.setSelection(
+                                            radioList.indexOf(
+                                                clientDetail.type
+                                            )
+                                        )
+                                    }
+                                }
+
+                                is Results.Error -> {}
+                                is Results.Loading -> {}
+                            }
+                        }
+                    }
                 }
 
                 is Results.Error -> {
@@ -153,6 +241,27 @@ class EditRouterActivity : AppCompatActivity() {
                         ArrayAdapter(this, R.layout.spinner_dropdown_item, channelWidthList)
                     channelWidthAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
                     binding.spChannelWidth.adapter = channelWidthAdapter
+
+                    if (channelWidthList.isNotEmpty()) {
+                        editRouterViewModel.getClientDetail.observe(this) { channelWidthResult ->
+                            when (channelWidthResult) {
+                                is Results.Success -> {
+                                    val clientDetail =
+                                        channelWidthResult.data.clientDetail?.firstOrNull()
+                                    if (clientDetail != null) {
+                                        binding.spChannelWidth.setSelection(
+                                            channelWidthList.indexOf(
+                                                clientDetail.channelWidth
+                                            )
+                                        )
+                                    }
+                                }
+
+                                is Results.Error -> {}
+                                is Results.Loading -> {}
+                            }
+                        }
+                    }
                 }
 
                 is Results.Error -> {
@@ -187,6 +296,27 @@ class EditRouterActivity : AppCompatActivity() {
                         ArrayAdapter(this, R.layout.spinner_dropdown_item, presharedKeyList)
                     presharedKeyAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
                     binding.spPresharedKey.adapter = presharedKeyAdapter
+
+                    if (presharedKeyList.isNotEmpty()) {
+                        editRouterViewModel.getClientDetail.observe(this) { presharedKeyResult ->
+                            when (presharedKeyResult) {
+                                is Results.Success -> {
+                                    val clientDetail =
+                                        presharedKeyResult.data.clientDetail?.firstOrNull()
+                                    if (clientDetail != null) {
+                                        binding.spPresharedKey.setSelection(
+                                            presharedKeyList.indexOf(
+                                                clientDetail.presharedKey
+                                            )
+                                        )
+                                    }
+                                }
+
+                                is Results.Error -> {}
+                                is Results.Loading -> {}
+                            }
+                        }
+                    }
                 }
 
                 is Results.Error -> {
@@ -252,5 +382,9 @@ class EditRouterActivity : AppCompatActivity() {
             dialog.dismiss()
         }
         dialog.show()
+    }
+
+    companion object {
+        const val CLIENT_ID = "CLIENT_ID"
     }
 }

@@ -3,7 +3,6 @@ package com.example.clientaccesscontrol.view.ui.clientdetail
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
@@ -45,21 +44,17 @@ class ClientDetailActivity : AppCompatActivity() {
         }
 
         clientId = intent.getIntExtra(CLIENT_ID, 0)
-        Log.d("ClientDetailActivity", "Client ID: $clientId")
+        clientDetailViewModel.getClientDetail(clientId)
         setupActionButton()
         setupActionSpinner()
-        clientDetail()
+        setupClientDetail()
     }
 
-    private fun clientDetail() {
-        clientDetailViewModel.getClientDetail(clientId)
-        Log.d("ClientDetailActivity", "Get Client Detail")
+    private fun setupClientDetail() {
         clientDetailViewModel.getClientDetail.observe(this) { result ->
-            Log.d("ClientDetailActivity", "Get Client Detail: $result")
             when (result) {
                 is Results.Success -> {
                     val clientDetail = result.data.clientDetail?.firstOrNull()
-                    Log.d("ClientDetailActivity", "Client Detail: ${result.data.clientDetail}")
                     if (clientDetail != null) {
                         binding.tvClientName.text = clientDetail.name
                         binding.tvPhone.text = clientDetail.phone
@@ -207,7 +202,9 @@ class ClientDetailActivity : AppCompatActivity() {
             finish()
         }
         binding.btEdit.setOnClickListener {
-            val intent = Intent(this, EditRouterActivity::class.java)
+            val intent = Intent(this, EditRouterActivity::class.java).apply {
+                putExtra(EditRouterActivity.CLIENT_ID, clientId)
+            }
             startActivity(intent)
         }
     }

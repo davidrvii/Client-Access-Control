@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.clientaccesscontrol.data.preference.UserRepository
 import com.example.clientaccesscontrol.data.response.GetBTSResponse
 import com.example.clientaccesscontrol.data.response.GetChannelWidthResponse
+import com.example.clientaccesscontrol.data.response.GetClientDetailResponse
 import com.example.clientaccesscontrol.data.response.GetModeResponse
 import com.example.clientaccesscontrol.data.response.GetPresharedKeyResponse
 import com.example.clientaccesscontrol.data.response.GetRadioResponse
@@ -14,6 +15,22 @@ import com.example.clientaccesscontrol.data.result.Results
 import kotlinx.coroutines.launch
 
 class EditRouterVM(private val repository: UserRepository) : ViewModel() {
+
+    private val _getClientDetail = MediatorLiveData<Results<GetClientDetailResponse>>()
+    val getClientDetail: MutableLiveData<Results<GetClientDetailResponse>> = _getClientDetail
+
+    fun getClientDetail(id: Int) {
+        viewModelScope.launch {
+            repository.getSession().collect { user ->
+                user.token.let { token ->
+                    val source = repository.getClientDetail(token, id)
+                    _getClientDetail.addSource(source) { result ->
+                        _getClientDetail.value = result
+                    }
+                }
+            }
+        }
+    }
 
     //BTS
     private val _getBTS = MediatorLiveData<Results<GetBTSResponse>>()
