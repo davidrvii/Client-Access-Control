@@ -75,7 +75,6 @@ class MainActivity : AppCompatActivity() {
                 is Results.Success -> {
                     clientAdapter.updateData(result.data.allClient?.filterNotNull() ?: emptyList())
                 }
-
                 is Results.Error -> {}
                 is Results.Loading -> {}
             }

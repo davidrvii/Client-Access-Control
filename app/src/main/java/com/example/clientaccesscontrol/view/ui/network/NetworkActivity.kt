@@ -28,7 +28,10 @@ class NetworkActivity : AppCompatActivity() {
         }
 
         setupClickListener()
+        setupActionButton()
+    }
 
+    private fun setupActionButton() {
         binding.btBack.setOnClickListener {
             finish()
         }
