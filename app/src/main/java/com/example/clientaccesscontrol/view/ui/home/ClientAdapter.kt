@@ -5,17 +5,17 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.clientaccesscontrol.data.response.AllClientItem
+import com.example.clientaccesscontrol.data.response.ClientsItem
 import com.example.clientaccesscontrol.databinding.ClientListBinding
 import com.example.clientaccesscontrol.view.ui.clientdetail.ClientDetailActivity
 
-class ClientAdapter(private var listClient: List<AllClientItem>) :
+class ClientAdapter(private var listClient: List<ClientsItem>) :
     RecyclerView.Adapter<ClientAdapter.ViewHolder>() {
 
     class ViewHolder(private val binding: ClientListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: AllClientItem) {
+        fun bind(item: ClientsItem) {
             binding.tvClientName.text = item.name
             binding.tvClientIPAddress.text = item.ipAddress
 
@@ -41,7 +41,7 @@ class ClientAdapter(private var listClient: List<AllClientItem>) :
     override fun getItemCount(): Int = listClient.size
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(newList: List<AllClientItem>) {
+    fun updateData(newList: List<ClientsItem>) {
         listClient = newList
         notifyDataSetChanged()
     }

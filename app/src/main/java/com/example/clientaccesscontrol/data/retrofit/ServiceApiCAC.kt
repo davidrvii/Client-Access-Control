@@ -146,7 +146,7 @@ interface ServiceApiCAC {
         @Header("Authorization") token: String,
     ): GetSpeedResponse
 
-    @GET("client/")
+    @GET("client/byUser")
     suspend fun getAllClient(
         @Header("Authorization") token: String,
     ): GetAllClientResponse

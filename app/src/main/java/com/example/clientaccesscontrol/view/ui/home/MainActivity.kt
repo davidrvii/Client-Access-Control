@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.getAllClient.observe(this) { result ->
             when (result) {
                 is Results.Success -> {
-                    clientAdapter.updateData(result.data.allClient?.filterNotNull() ?: emptyList())
+                    clientAdapter.updateData(result.data.clients?.filterNotNull() ?: emptyList())
                 }
                 is Results.Error -> {}
                 is Results.Loading -> {}
