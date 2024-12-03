@@ -98,9 +98,11 @@ class MainActivity : AppCompatActivity() {
         binding.btNetwork.setOnClickListener {
             val intent = Intent(this, NetworkActivity::class.java)
             startActivity(intent)
+            onButtonMenuClicked()
         }
 
         binding.btLogout.setOnClickListener {
+            onButtonMenuClicked()
             showCustomDialog()
         }
     }
@@ -195,6 +197,7 @@ class MainActivity : AppCompatActivity() {
         binding.btNewClient.setOnClickListener {
             val intent = Intent(this, NewClientProfileActivity::class.java)
             startActivity(intent)
+            if (clicked) onButtonMenuClicked()
         }
     }
 
