@@ -8,11 +8,34 @@ import com.example.clientaccesscontrol.data.preference.UserRepository
 import com.example.clientaccesscontrol.data.response.GetAccessResponse
 import com.example.clientaccesscontrol.data.response.GetClientDetailResponse
 import com.example.clientaccesscontrol.data.response.GetSpeedResponse
+import com.example.clientaccesscontrol.data.response.UpdateClientDetailResponse
 import com.example.clientaccesscontrol.data.result.Results
 import kotlinx.coroutines.launch
 
 class ClientDetailVM(private val repository: UserRepository) : ViewModel() {
 
+    //Update Client Access & Speed
+    private val _updateClient = MediatorLiveData<Results<UpdateClientDetailResponse>>()
+    val updateClient: MutableLiveData<Results<UpdateClientDetailResponse>> = _updateClient
+
+    fun updateClient(id: Int, access: Int, speed: Int) {
+        viewModelScope.launch {
+            _updateClient.value = Results.Loading
+            try {
+                repository.getSession().collect { user ->
+                    user.token.let { token ->
+                        val token = "Bearer $token"
+                        val response = repository.updateClient(token, id, access, speed)
+                        _updateClient.value = Results.Success(response)
+                    }
+                }
+            } catch (e: Exception) {
+                _updateClient.value = Results.Error(e.message.toString())
+            }
+        }
+    }
+
+    //Get Client Detail
     private val _getAccess = MediatorLiveData<Results<GetAccessResponse>>()
     val getAccess: MutableLiveData<Results<GetAccessResponse>> = _getAccess
 

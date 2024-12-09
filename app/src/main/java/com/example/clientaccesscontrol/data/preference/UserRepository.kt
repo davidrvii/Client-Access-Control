@@ -23,6 +23,8 @@ import com.example.clientaccesscontrol.data.response.GetPresharedKeyResponse
 import com.example.clientaccesscontrol.data.response.GetRadioResponse
 import com.example.clientaccesscontrol.data.response.GetSpeedResponse
 import com.example.clientaccesscontrol.data.response.RegisterResponse
+import com.example.clientaccesscontrol.data.response.UpdateClientDetailResponse
+import com.example.clientaccesscontrol.data.response.UpdateNetworkResponse
 import com.example.clientaccesscontrol.data.result.Results
 import com.example.clientaccesscontrol.data.retrofit.ServiceApiCAC
 import kotlinx.coroutines.flow.Flow
@@ -52,7 +54,6 @@ class UserRepository private constructor(
         password: String,
         ipAddress: String,
     ): RegisterResponse {
-        Log.d("UserRepository", "Starting register with username: $username, ipAddress: $ipAddress")
         return apiServiceCAC.register(username, password, ipAddress)
     }
 
@@ -61,9 +62,7 @@ class UserRepository private constructor(
         username: String,
         password: String,
     ) {
-        Log.d("UserRepository", "Starting login with username: $username, ipAddress: $ipAddress")
         val loginResponse = apiServiceCAC.login(ipAddress, username, password)
-        Log.d("UserRepository", "Login response: $loginResponse")
 
         loginResponse.loginResult?.token?.let {
             Log.d("UserRepository", "Saving token: $it")
@@ -83,7 +82,6 @@ class UserRepository private constructor(
         token: String,
         bts: String,
     ): LiveData<Results<CreateBTSResponse>> = liveData {
-        Log.d("UserRepository", "Starting create BTS with token: $token, bts: $bts")
         emit(Results.Loading)
         try {
             val response = apiServiceCAC.createBTS(token, bts)
@@ -284,7 +282,7 @@ class UserRepository private constructor(
     }
 
     suspend fun getSpeed(
-        token: String
+        token: String,
     ): LiveData<Results<GetSpeedResponse>> = liveData {
         emit(Results.Loading)
         try {
@@ -296,7 +294,7 @@ class UserRepository private constructor(
     }
 
     suspend fun getAllClient(
-        token: String
+        token: String,
     ): LiveData<Results<GetAllClientResponse>> = liveData {
         emit(Results.Loading)
         try {
@@ -309,7 +307,7 @@ class UserRepository private constructor(
 
     suspend fun getClientDetail(
         token: String,
-        id: Int
+        id: Int,
     ): LiveData<Results<GetClientDetailResponse>> = liveData {
         emit(Results.Loading)
         try {
@@ -318,6 +316,60 @@ class UserRepository private constructor(
         } catch (e: Exception) {
             emit(Results.Error(e.message.toString()))
         }
+    }
+
+    suspend fun updateNetwork(
+        token: String,
+        id: Int,
+        radioName: String,
+        frequency: String,
+        ipRadio: String,
+        ipAddress: String,
+        wlanMacAddress: String,
+        ssid: String,
+        radioSignal: String,
+        apLocation: String,
+        radio: Int,
+        mode: Int,
+        channelWidth: Int,
+        presharedKey: Int,
+        comment: String,
+        password: String,
+        bts: Int,
+    ): UpdateNetworkResponse {
+        return apiServiceCAC.updateNetwork(
+            token,
+            id,
+            radioName,
+            frequency,
+            ipRadio,
+            ipAddress,
+            wlanMacAddress,
+            ssid,
+            radioSignal,
+            apLocation,
+            radio,
+            mode,
+            channelWidth,
+            presharedKey,
+            comment,
+            password,
+            bts
+        )
+    }
+
+    suspend fun updateClient(
+        token: String,
+        id: Int,
+        access: Int,
+        speed: Int,
+    ): UpdateClientDetailResponse {
+        return apiServiceCAC.updateClient(
+            token,
+            id,
+            access,
+            speed
+        )
     }
 
 //    suspend fun deleteClient(

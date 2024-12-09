@@ -182,7 +182,7 @@
                     app:layout_constraintTop_toBottomOf="@id/etSSID" />
 
                 <EditText
-                    android:id="@+id/etIPInternet"
+                    android:id="@+id/etIPAddress"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="4dp"
@@ -206,8 +206,8 @@
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@id/etIPInternet"
-                    app:layout_constraintTop_toBottomOf="@id/etIPInternet" />
+                    app:layout_constraintStart_toStartOf="@id/etIPAddress"
+                    app:layout_constraintTop_toBottomOf="@id/etIPAddress" />
 
                 <Spinner
                     android:id="@+id/spRadio"

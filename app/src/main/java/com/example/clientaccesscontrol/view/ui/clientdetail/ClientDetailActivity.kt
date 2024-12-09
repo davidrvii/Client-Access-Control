@@ -27,6 +27,10 @@ class ClientDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityClientDetailBinding
     private lateinit var bindingDialog: CustomDeleteDialogBinding
     private var clientId: Int = 0
+    private var accessSelectedId: Int = 0
+    private var speedSelectedId: Int = 0
+    private var previousAccessSelectedId: Int = 0
+    private var previousSpeedSelectedId: Int = 0
     private val clientDetailViewModel by viewModels<ClientDetailVM> {
         FactoryVM.getInstance(this)
     }
@@ -100,6 +104,7 @@ class ClientDetailActivity : AppCompatActivity() {
                                 is Results.Success -> {
                                     val clientDetail = accessResult.data.clientDetail?.firstOrNull()
                                     if (clientDetail != null) {
+                                        previousAccessSelectedId = accessList.indexOf(clientDetail.internetAccess) + 1
                                         binding.spInternetAccess.setSelection(
                                             accessList.indexOf(
                                                 clientDetail.internetAccess
@@ -113,6 +118,24 @@ class ClientDetailActivity : AppCompatActivity() {
                             }
                         }
                     }
+
+                    binding.spInternetAccess.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: android.view.View?,
+                                position: Int,
+                                id: Long,
+                            ) {
+                                accessSelectedId = position + 1
+                                if (accessSelectedId != previousAccessSelectedId) {
+                                    updateClient()
+                                    previousAccessSelectedId = accessSelectedId
+                                }
+                            }
+
+                            override fun onNothingSelected(p0: AdapterView<*>?) {}
+                        }
                 }
 
                 is Results.Error -> Toast.makeText(
@@ -123,20 +146,6 @@ class ClientDetailActivity : AppCompatActivity() {
 
                 is Results.Loading -> {}
             }
-
-            binding.spInternetAccess.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: android.view.View?,
-                        position: Int,
-                        id: Long,
-                    ) {
-                        val selectedSize = parent?.getItemAtPosition(position).toString()
-                    }
-
-                    override fun onNothingSelected(p0: AdapterView<*>?) {}
-                }
         }
 
         clientDetailViewModel.getSpeed.observe(this) { result ->
@@ -154,6 +163,7 @@ class ClientDetailActivity : AppCompatActivity() {
                                 is Results.Success -> {
                                     val clientDetail = speedResult.data.clientDetail?.firstOrNull()
                                     if (clientDetail != null) {
+                                        previousSpeedSelectedId = speedList.indexOf(clientDetail.internetSpeed) + 1
                                         binding.spInternetSpeed.setSelection(
                                             speedList.indexOf(
                                                 clientDetail.internetSpeed
@@ -167,6 +177,24 @@ class ClientDetailActivity : AppCompatActivity() {
                             }
                         }
                     }
+
+                    binding.spInternetSpeed.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: android.view.View?,
+                                position: Int,
+                                id: Long,
+                            ) {
+                                speedSelectedId = position + 1
+                                if (speedSelectedId != previousSpeedSelectedId) {
+                                    updateClient()
+                                    previousSpeedSelectedId = speedSelectedId
+                                }
+                            }
+
+                            override fun onNothingSelected(p0: AdapterView<*>?) {}
+                        }
                 }
 
                 is Results.Error -> Toast.makeText(
@@ -177,22 +205,26 @@ class ClientDetailActivity : AppCompatActivity() {
 
                 is Results.Loading -> {}
             }
+        }
 
-            binding.spInternetSpeed.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: android.view.View?,
-                        position: Int,
-                        id: Long,
-                    ) {
-                        val selectedSize = parent?.getItemAtPosition(position).toString()
-                    }
-
-                    override fun onNothingSelected(p0: AdapterView<*>?) {}
+        clientDetailViewModel.updateClient.observe(this) { result ->
+            when (result) {
+                is Results.Success -> {
                 }
+                is Results.Error -> {
+                    Toast.makeText(this, "Error: ${result.error}", Toast.LENGTH_SHORT).show()
+                }
+                is Results.Loading -> {}
+            }
         }
     }
+
+    private fun updateClient() {
+        if (accessSelectedId != 0 && speedSelectedId != 0) {
+            clientDetailViewModel.updateClient(clientId, accessSelectedId, speedSelectedId)
+        }
+    }
+
 
     private fun setupActionButton() {
         binding.btDelete.setOnClickListener {
@@ -239,6 +271,11 @@ class ClientDetailActivity : AppCompatActivity() {
         }
 
         dialog.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        clientDetailViewModel.getClientDetail(clientId)
     }
 
     companion object {

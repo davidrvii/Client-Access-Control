@@ -21,11 +21,14 @@ import com.example.clientaccesscontrol.data.response.GetRadioResponse
 import com.example.clientaccesscontrol.data.response.GetSpeedResponse
 import com.example.clientaccesscontrol.data.response.LoginResponse
 import com.example.clientaccesscontrol.data.response.RegisterResponse
+import com.example.clientaccesscontrol.data.response.UpdateClientDetailResponse
+import com.example.clientaccesscontrol.data.response.UpdateNetworkResponse
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -154,8 +157,39 @@ interface ServiceApiCAC {
     @GET("client/{id}")
     suspend fun getClientDetail(
         @Header("Authorization") token: String,
-        @Path("id") id: Int
+        @Path("id") id: Int,
     ): GetClientDetailResponse
+
+    @FormUrlEncoded
+    @PATCH("network/{id}")
+    suspend fun updateNetwork(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int,
+        @Field("radio_name") radioName: String,
+        @Field("frequency") frequency: String,
+        @Field("ip_radio") ipRadio: String,
+        @Field("ip_address") ipAddress: String,
+        @Field("wlan_mac_address") wlanMacAddress: String,
+        @Field("ssid") ssid: String,
+        @Field("radio_signal") radioSignal: String,
+        @Field("ap_location") apLocation: String,
+        @Field("fk_radio_id") radio: Int,
+        @Field("fk_mode_id") mode: Int,
+        @Field("fk_channel_width_id") channelWidth: Int,
+        @Field("fk_preshared_key_id") presharedKey: Int,
+        @Field("comment") comment: String,
+        @Field("password") password: String,
+        @Field("fk_bts_id") bts: Int,
+    ): UpdateNetworkResponse
+
+    @FormUrlEncoded
+    @PATCH("client/{id}")
+    suspend fun updateClient(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int,
+        @Field("fk_access_id") access: Int,
+        @Field("fk_speed_id") speed: Int,
+    ): UpdateClientDetailResponse
 
 //    @DELETE("client/{id}")
 //    suspend fun deleteClient(

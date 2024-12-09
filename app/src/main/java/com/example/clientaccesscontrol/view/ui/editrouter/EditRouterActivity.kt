@@ -2,6 +2,7 @@ package com.example.clientaccesscontrol.view.ui.editrouter
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
@@ -25,6 +26,11 @@ class EditRouterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditRouterBinding
     private lateinit var bindingDialog: CustomSaveDialogBinding
     private var clientId: Int = 0
+    private var btsSelectedId: Int = 1
+    private var modeSelectedId: Int = 1
+    private var radioSelectedId: Int = 1
+    private var channelWidthSelectedId: Int = 1
+    private var presharedKeySelectedId: Int = 1
     private val editRouterViewModel by viewModels<EditRouterVM> {
         FactoryVM.getInstance(this)
     }
@@ -43,6 +49,7 @@ class EditRouterActivity : AppCompatActivity() {
 
         clientId = intent.getIntExtra(CLIENT_ID, 0)
         editRouterViewModel.getClientDetail(clientId)
+
         setupActionSpinner()
         setupActionButton()
         setupEditHint()
@@ -55,7 +62,7 @@ class EditRouterActivity : AppCompatActivity() {
                     val clientDetail = result.data.clientDetail?.firstOrNull()
                     if (clientDetail != null) {
                         binding.etSSID.hint = clientDetail.ssid
-                        binding.etIPInternet.hint = clientDetail.ipAddress
+                        binding.etIPAddress.hint = clientDetail.ipAddress
                         binding.etRadioName.hint = clientDetail.radioName
                         binding.etIPRadio.hint = clientDetail.ipRadio
                         binding.etFrequency.hint = clientDetail.frequency
@@ -66,6 +73,7 @@ class EditRouterActivity : AppCompatActivity() {
                         binding.etComment.hint = clientDetail.comment
                     }
                 }
+
                 is Results.Error -> {}
                 is Results.Loading -> {}
             }
@@ -101,6 +109,20 @@ class EditRouterActivity : AppCompatActivity() {
                             }
                         }
                     }
+
+                    binding.spBTS.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: android.view.View?,
+                                position: Int,
+                                id: Long,
+                            ) {
+                                btsSelectedId = position+1
+                            }
+
+                            override fun onNothingSelected(p0: AdapterView<*>?) {}
+                        }
                 }
 
                 is Results.Error -> {
@@ -110,20 +132,6 @@ class EditRouterActivity : AppCompatActivity() {
 
                 is Results.Loading -> {}
             }
-
-            binding.spBTS.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: android.view.View?,
-                        position: Int,
-                        id: Long,
-                    ) {
-                        val selectedSize = parent?.getItemAtPosition(position).toString()
-                    }
-
-                    override fun onNothingSelected(p0: AdapterView<*>?) {}
-                }
         }
 
         editRouterViewModel.getMode.observe(this) { result ->
@@ -154,6 +162,20 @@ class EditRouterActivity : AppCompatActivity() {
                             }
                         }
                     }
+
+                    binding.spMode.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: android.view.View?,
+                                position: Int,
+                                id: Long,
+                            ) {
+                                modeSelectedId = position+1
+                            }
+
+                            override fun onNothingSelected(p0: AdapterView<*>?) {}
+                        }
                 }
 
                 is Results.Error -> {
@@ -163,20 +185,6 @@ class EditRouterActivity : AppCompatActivity() {
 
                 is Results.Loading -> {}
             }
-
-            binding.spMode.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: android.view.View?,
-                        position: Int,
-                        id: Long,
-                    ) {
-                        val selectedSize = parent?.getItemAtPosition(position).toString()
-                    }
-
-                    override fun onNothingSelected(p0: AdapterView<*>?) {}
-                }
         }
 
         editRouterViewModel.getRadio.observe(this) { result ->
@@ -207,6 +215,20 @@ class EditRouterActivity : AppCompatActivity() {
                             }
                         }
                     }
+
+                    binding.spRadio.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: android.view.View?,
+                                position: Int,
+                                id: Long,
+                            ) {
+                                radioSelectedId = position+1
+                            }
+
+                            override fun onNothingSelected(p0: AdapterView<*>?) {}
+                        }
                 }
 
                 is Results.Error -> {
@@ -216,20 +238,6 @@ class EditRouterActivity : AppCompatActivity() {
 
                 is Results.Loading -> {}
             }
-
-            binding.spRadio.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: android.view.View?,
-                        position: Int,
-                        id: Long,
-                    ) {
-                        val selectedSize = parent?.getItemAtPosition(position).toString()
-                    }
-
-                    override fun onNothingSelected(p0: AdapterView<*>?) {}
-                }
         }
 
         editRouterViewModel.getChannelWidth.observe(this) { result ->
@@ -262,6 +270,20 @@ class EditRouterActivity : AppCompatActivity() {
                             }
                         }
                     }
+
+                    binding.spChannelWidth.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: android.view.View?,
+                                position: Int,
+                                id: Long,
+                            ) {
+                                channelWidthSelectedId = position+1
+                            }
+
+                            override fun onNothingSelected(p0: AdapterView<*>?) {}
+                        }
                 }
 
                 is Results.Error -> {
@@ -271,20 +293,6 @@ class EditRouterActivity : AppCompatActivity() {
 
                 is Results.Loading -> {}
             }
-
-            binding.spChannelWidth.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: android.view.View?,
-                        position: Int,
-                        id: Long,
-                    ) {
-                        val selectedSize = parent?.getItemAtPosition(position).toString()
-                    }
-
-                    override fun onNothingSelected(p0: AdapterView<*>?) {}
-                }
         }
 
         editRouterViewModel.getPresharedKey.observe(this) { result ->
@@ -317,6 +325,20 @@ class EditRouterActivity : AppCompatActivity() {
                             }
                         }
                     }
+
+                    binding.spPresharedKey.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: android.view.View?,
+                                position: Int,
+                                id: Long,
+                            ) {
+                                presharedKeySelectedId = position+1
+                            }
+
+                            override fun onNothingSelected(p0: AdapterView<*>?) {}
+                        }
                 }
 
                 is Results.Error -> {
@@ -326,20 +348,6 @@ class EditRouterActivity : AppCompatActivity() {
 
                 is Results.Loading -> {}
             }
-
-            binding.spPresharedKey.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: android.view.View?,
-                        position: Int,
-                        id: Long,
-                    ) {
-                        val selectedSize = parent?.getItemAtPosition(position).toString()
-                    }
-
-                    override fun onNothingSelected(p0: AdapterView<*>?) {}
-                }
         }
     }
 
@@ -375,8 +383,54 @@ class EditRouterActivity : AppCompatActivity() {
         cardView.layoutParams = layoutParams
 
         bindingDialog.btYesSave.setOnClickListener {
-            finish()
-            dialog.dismiss()
+            val bts =  btsSelectedId
+            val mode = modeSelectedId
+            val ssid = binding.etSSID.text.toString()
+            val ipAddress = binding.etIPAddress.text.toString()
+            val radio = radioSelectedId
+            val radioName = binding.etRadioName.text.toString()
+            val ipRadio = binding.etIPRadio.text.toString()
+            val frequency = binding.etFrequency.text.toString()
+            val channelWidth = channelWidthSelectedId
+            val radioSignal = binding.etSignal.text.toString()
+            val presharedKey = presharedKeySelectedId
+            val apLocation = binding.etAPLocation.text.toString()
+            val wlanMacAddress = binding.etWLANMacAddress.text.toString()
+            val password = binding.etPassword.text.toString()
+            val comment = binding.etComment.text.toString()
+
+            editRouterViewModel.updateNetwork(
+                clientId,
+                radioName,
+                frequency,
+                ipRadio,
+                ipAddress,
+                wlanMacAddress,
+                ssid,
+                radioSignal,
+                apLocation,
+                radio,
+                mode,
+                channelWidth,
+                presharedKey,
+                comment,
+                password,
+                bts
+            )
+
+            editRouterViewModel.updateNetwork.observe(this) { result ->
+                when (result) {
+                    is Results.Success -> {
+                        finish()
+                        dialog.dismiss()
+                    }
+                    is Results.Error -> {
+                        Toast.makeText(this, "Update Failed", Toast.LENGTH_SHORT).show()
+                        Log.d("Edit Router", "Update Failed: ${result.error}")
+                    }
+                    is Results.Loading -> {}
+                }
+            }
         }
         bindingDialog.btCancelSave.setOnClickListener {
             dialog.dismiss()

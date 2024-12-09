@@ -11,11 +11,68 @@ import com.example.clientaccesscontrol.data.response.GetClientDetailResponse
 import com.example.clientaccesscontrol.data.response.GetModeResponse
 import com.example.clientaccesscontrol.data.response.GetPresharedKeyResponse
 import com.example.clientaccesscontrol.data.response.GetRadioResponse
+import com.example.clientaccesscontrol.data.response.UpdateNetworkResponse
 import com.example.clientaccesscontrol.data.result.Results
 import kotlinx.coroutines.launch
 
 class EditRouterVM(private val repository: UserRepository) : ViewModel() {
 
+    //Patch Network
+    private val _updateNetwork = MediatorLiveData<Results<UpdateNetworkResponse>>()
+    val updateNetwork: MutableLiveData<Results<UpdateNetworkResponse>> = _updateNetwork
+
+    fun updateNetwork(
+        id: Int,
+        radioName: String,
+        frequency: String,
+        ipRadio: String,
+        ipAddress: String,
+        wlanMacAddress: String,
+        ssid: String,
+        radioSignal: String,
+        apLocation: String,
+        radio: Int,
+        mode: Int,
+        channelWidth: Int,
+        presharedKey: Int,
+        comment: String,
+        password: String,
+        bts: Int
+    ) {
+        viewModelScope.launch {
+            _updateNetwork.value = Results.Loading
+            try {
+                repository.getSession().collect { user ->
+                    user.token.let { token ->
+                        val response = repository.updateNetwork(
+                            token,
+                            id,
+                            radioName,
+                            frequency,
+                            ipRadio,
+                            ipAddress,
+                            wlanMacAddress,
+                            ssid,
+                            radioSignal,
+                            apLocation,
+                            radio,
+                            mode,
+                            channelWidth,
+                            presharedKey,
+                            comment,
+                            password,
+                            bts
+                        )
+                        _updateNetwork.value = Results.Success(response)
+                    }
+                }
+            } catch (e: Exception) {
+                _updateNetwork.value = Results.Error(e.message.toString())
+            }
+        }
+    }
+
+    //Update Hint Input Field
     private val _getClientDetail = MediatorLiveData<Results<GetClientDetailResponse>>()
     val getClientDetail: MutableLiveData<Results<GetClientDetailResponse>> = _getClientDetail
 
