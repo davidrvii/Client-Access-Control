@@ -38,15 +38,15 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         }
     }
 
-    suspend fun logout() {
-        dataStore.edit { preferences ->
-            preferences.clear()
-        }
-    }
-
     fun getBaseUrl(): Flow<String> {
         return dataStore.data.map { preferences ->
             preferences[BASE_URL_KEY] ?: "http://192.168.203.162/"
+        }
+    }
+
+    suspend fun logout() {
+        dataStore.edit { preferences ->
+            preferences.clear()
         }
     }
 

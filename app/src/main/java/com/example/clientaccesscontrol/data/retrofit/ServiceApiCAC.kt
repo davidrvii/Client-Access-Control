@@ -7,6 +7,7 @@ import com.example.clientaccesscontrol.data.response.CreatePresharedKeyResponse
 import com.example.clientaccesscontrol.data.response.CreateRadioResponse
 import com.example.clientaccesscontrol.data.response.DeleteBTSResponse
 import com.example.clientaccesscontrol.data.response.DeleteChannelWidthResponse
+import com.example.clientaccesscontrol.data.response.DeleteClientResponse
 import com.example.clientaccesscontrol.data.response.DeleteModeResponse
 import com.example.clientaccesscontrol.data.response.DeletePresharedKeyResponse
 import com.example.clientaccesscontrol.data.response.DeleteRadioResponse
@@ -191,9 +192,9 @@ interface ServiceApiCAC {
         @Field("fk_speed_id") speed: Int,
     ): UpdateClientDetailResponse
 
-//    @DELETE("client/{id}")
-//    suspend fun deleteClient(
-//        @Header("Authorization") token: String,
-//        @Path("id") id: Int
-//    ): DeleteClientResponse
+    @DELETE("client/{id}")
+    suspend fun deleteClient(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): DeleteClientResponse
 }

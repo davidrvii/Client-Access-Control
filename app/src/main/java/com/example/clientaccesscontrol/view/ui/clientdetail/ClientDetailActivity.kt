@@ -104,7 +104,8 @@ class ClientDetailActivity : AppCompatActivity() {
                                 is Results.Success -> {
                                     val clientDetail = accessResult.data.clientDetail?.firstOrNull()
                                     if (clientDetail != null) {
-                                        previousAccessSelectedId = accessList.indexOf(clientDetail.internetAccess) + 1
+                                        previousAccessSelectedId =
+                                            accessList.indexOf(clientDetail.internetAccess) + 1
                                         binding.spInternetAccess.setSelection(
                                             accessList.indexOf(
                                                 clientDetail.internetAccess
@@ -163,7 +164,8 @@ class ClientDetailActivity : AppCompatActivity() {
                                 is Results.Success -> {
                                     val clientDetail = speedResult.data.clientDetail?.firstOrNull()
                                     if (clientDetail != null) {
-                                        previousSpeedSelectedId = speedList.indexOf(clientDetail.internetSpeed) + 1
+                                        previousSpeedSelectedId =
+                                            speedList.indexOf(clientDetail.internetSpeed) + 1
                                         binding.spInternetSpeed.setSelection(
                                             speedList.indexOf(
                                                 clientDetail.internetSpeed
@@ -211,9 +213,11 @@ class ClientDetailActivity : AppCompatActivity() {
             when (result) {
                 is Results.Success -> {
                 }
+
                 is Results.Error -> {
                     Toast.makeText(this, "Error: ${result.error}", Toast.LENGTH_SHORT).show()
                 }
+
                 is Results.Loading -> {}
             }
         }
@@ -263,6 +267,8 @@ class ClientDetailActivity : AppCompatActivity() {
         cardView.layoutParams = layoutParams
 
         bindingDialog.btYesDelete.setOnClickListener {
+            clientDetailViewModel.deleteClient(clientId)
+            deleteResult()
             dialog.dismiss()
             finish()
         }
@@ -272,6 +278,28 @@ class ClientDetailActivity : AppCompatActivity() {
 
         dialog.show()
     }
+
+    private fun deleteResult() {
+        clientDetailViewModel.deleteClient.observe(this) { result ->
+            when (result) {
+                is Results.Success -> {
+                    Toast.makeText(this, result.data.message, Toast.LENGTH_SHORT).show()
+                }
+
+                is Results.Error -> {
+                    Toast.makeText(
+                        this,
+                        "Error deleting client: ${result.error}",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+
+                is Results.Loading -> {}
+            }
+        }
+    }
+
 
     override fun onResume() {
         super.onResume()

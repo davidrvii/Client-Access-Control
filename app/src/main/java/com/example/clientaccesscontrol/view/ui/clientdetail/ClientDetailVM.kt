@@ -1,10 +1,12 @@
 package com.example.clientaccesscontrol.view.ui.clientdetail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clientaccesscontrol.data.preference.UserRepository
+import com.example.clientaccesscontrol.data.response.DeleteClientResponse
 import com.example.clientaccesscontrol.data.response.GetAccessResponse
 import com.example.clientaccesscontrol.data.response.GetClientDetailResponse
 import com.example.clientaccesscontrol.data.response.GetSpeedResponse
@@ -13,6 +15,25 @@ import com.example.clientaccesscontrol.data.result.Results
 import kotlinx.coroutines.launch
 
 class ClientDetailVM(private val repository: UserRepository) : ViewModel() {
+
+    //Delete Client
+    private val _deleteClient = MediatorLiveData<Results<DeleteClientResponse>>()
+    val deleteClient: LiveData<Results<DeleteClientResponse>> = _deleteClient
+
+    fun deleteClient(id: Int) {
+        viewModelScope.launch {
+            repository.getSession().collect { user ->
+                user.token.let { token ->
+                    val token = "Bearer $token"
+                    val source = repository.deleteClient(token, id)
+                    _deleteClient.addSource(source) { result ->
+                        _deleteClient.value = result
+                        _deleteClient.removeSource(source)
+                    }
+                }
+            }
+        }
+    }
 
     //Update Client Access & Speed
     private val _updateClient = MediatorLiveData<Results<UpdateClientDetailResponse>>()

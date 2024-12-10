@@ -7,9 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ConfigApi {
-    private const val BASE_URL_CAC = "https://clientaccesscontrol.up.railway.app/"
-
-    private fun retrofitInstance(baseUrl: String): Retrofit {
+    fun getApiServiceCAC(): ServiceApiCAC {
         val loggingInterceptor = if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         } else {
@@ -19,26 +17,11 @@ object ConfigApi {
         val client = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .build()
-        return Retrofit.Builder()
-            .baseUrl(baseUrl)
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://clientaccesscontrol.up.railway.app/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
+        return retrofit.create(ServiceApiCAC::class.java)
     }
-
-    fun getApiServiceCAC(): ServiceApiCAC {
-        return retrofitInstance(BASE_URL_CAC).create(ServiceApiCAC::class.java)
-    }
-
-//    fun getApiServiceMikrotik(context: Context): ServiceApiMikrotik {
-//        val dataStore: DataStore<Preferences> = context.dataStore
-//        val userPreference = UserPreference.getInstance(dataStore)
-//        var baseUrl = "http://192.168.203.162/"
-//        runBlocking {
-//            userPreference.getBaseUrl().collect {
-//                baseUrl = it
-//            }
-//        }
-//        return retrofitInstance(baseUrl).create(ServiceApiMikrotik::class.java)
-//    }
 }

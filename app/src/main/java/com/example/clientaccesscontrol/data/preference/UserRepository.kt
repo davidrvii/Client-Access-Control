@@ -10,6 +10,7 @@ import com.example.clientaccesscontrol.data.response.CreatePresharedKeyResponse
 import com.example.clientaccesscontrol.data.response.CreateRadioResponse
 import com.example.clientaccesscontrol.data.response.DeleteBTSResponse
 import com.example.clientaccesscontrol.data.response.DeleteChannelWidthResponse
+import com.example.clientaccesscontrol.data.response.DeleteClientResponse
 import com.example.clientaccesscontrol.data.response.DeleteModeResponse
 import com.example.clientaccesscontrol.data.response.DeletePresharedKeyResponse
 import com.example.clientaccesscontrol.data.response.DeleteRadioResponse
@@ -31,7 +32,6 @@ import kotlinx.coroutines.flow.Flow
 
 class UserRepository private constructor(
     private val userPreference: UserPreference,
-    /*private val apiServiceMikrotik: ServiceApiMikrotik,*/
     private val apiServiceCAC: ServiceApiCAC,
 ) {
 
@@ -372,18 +372,18 @@ class UserRepository private constructor(
         )
     }
 
-//    suspend fun deleteClient(
-//        token: String,
-//        id: Int
-//    ): LiveData<Results<DeleteClientResponse>> = liveData {
-//        emit(Results.Loading)
-//        try {
-//            val response = apiServiceCAC.deleteClient("Bearer $token", id)
-//            emit(Results.Success(response))
-//        } catch (e: Exception) {
-//            emit(Results.Error(e.message.toString()))
-//        }
-//    }
+    suspend fun deleteClient(
+        token: String,
+        id: Int
+    ): LiveData<Results<DeleteClientResponse>> = liveData {
+        emit(Results.Loading)
+        try {
+            val response = apiServiceCAC.deleteClient("Bearer $token", id)
+            emit(Results.Success(response))
+        } catch (e: Exception) {
+            emit(Results.Error(e.message.toString()))
+        }
+    }
 
     companion object {
         @Volatile
