@@ -5,7 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.clientaccesscontrol.data.response.RadiosItem
+import com.example.clientaccesscontrol.data.cacresponse.RadiosItem
 import com.example.clientaccesscontrol.databinding.NetworkListBinding
 import com.example.clientaccesscontrol.view.ui.networkfilter.NetworkFilterActivity
 

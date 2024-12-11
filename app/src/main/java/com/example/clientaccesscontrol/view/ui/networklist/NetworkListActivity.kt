@@ -19,12 +19,12 @@ import com.example.clientaccesscontrol.R
 import com.example.clientaccesscontrol.data.result.Results
 import com.example.clientaccesscontrol.databinding.ActivityNetworkListBinding
 import com.example.clientaccesscontrol.databinding.CustomAddDialogBinding
-import com.example.clientaccesscontrol.view.utils.FactoryVM
+import com.example.clientaccesscontrol.view.utils.FactoryViewModel
 
 class NetworkListActivity : AppCompatActivity() {
 
     private val networkListViewModel by viewModels<NetworkListVM> {
-        FactoryVM.getInstance(this)
+        FactoryViewModel.getInstance(this)
     }
     private lateinit var binding: ActivityNetworkListBinding
     private lateinit var btsAdapter: BTSAdapter

@@ -20,7 +20,7 @@ import com.example.clientaccesscontrol.data.result.Results
 import com.example.clientaccesscontrol.databinding.ActivityClientDetailBinding
 import com.example.clientaccesscontrol.databinding.CustomDeleteDialogBinding
 import com.example.clientaccesscontrol.view.ui.editrouter.EditRouterActivity
-import com.example.clientaccesscontrol.view.utils.FactoryVM
+import com.example.clientaccesscontrol.view.utils.FactoryViewModel
 
 class ClientDetailActivity : AppCompatActivity() {
 
@@ -32,7 +32,7 @@ class ClientDetailActivity : AppCompatActivity() {
     private var previousAccessSelectedId: Int = 0
     private var previousSpeedSelectedId: Int = 0
     private val clientDetailViewModel by viewModels<ClientDetailVM> {
-        FactoryVM.getInstance(this)
+        FactoryViewModel.getInstance(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

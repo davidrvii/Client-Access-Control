@@ -14,13 +14,13 @@ import com.example.clientaccesscontrol.R
 import com.example.clientaccesscontrol.data.result.Results
 import com.example.clientaccesscontrol.databinding.ActivityNewClientRouterBinding
 import com.example.clientaccesscontrol.view.ui.home.MainActivity
-import com.example.clientaccesscontrol.view.utils.FactoryVM
+import com.example.clientaccesscontrol.view.utils.FactoryViewModel
 
 class NewClientRouterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNewClientRouterBinding
     private val newClientRouterViewModel by viewModels<NewClientRouterVM> {
-        FactoryVM.getInstance(this)
+        FactoryViewModel.getInstance(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +68,7 @@ class NewClientRouterActivity : AppCompatActivity() {
                         position: Int,
                         id: Long,
                     ) {
-                        val selectedSize = parent?.getItemAtPosition(position).toString()
+
                     }
 
                     override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -101,7 +101,7 @@ class NewClientRouterActivity : AppCompatActivity() {
                         position: Int,
                         id: Long,
                     ) {
-                        val selectedSize = parent?.getItemAtPosition(position).toString()
+
                     }
 
                     override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -134,7 +134,7 @@ class NewClientRouterActivity : AppCompatActivity() {
                         position: Int,
                         id: Long,
                     ) {
-                        val selectedSize = parent?.getItemAtPosition(position).toString()
+
                     }
 
                     override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -168,7 +168,7 @@ class NewClientRouterActivity : AppCompatActivity() {
                         position: Int,
                         id: Long,
                     ) {
-                        val selectedSize = parent?.getItemAtPosition(position).toString()
+
                     }
 
                     override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -202,7 +202,7 @@ class NewClientRouterActivity : AppCompatActivity() {
                         position: Int,
                         id: Long,
                     ) {
-                        val selectedSize = parent?.getItemAtPosition(position).toString()
+
                     }
 
                     override fun onNothingSelected(p0: AdapterView<*>?) {}

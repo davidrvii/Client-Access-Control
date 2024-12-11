@@ -14,13 +14,13 @@ import com.example.clientaccesscontrol.R
 import com.example.clientaccesscontrol.data.result.Results
 import com.example.clientaccesscontrol.databinding.ActivityNewClientProfileBinding
 import com.example.clientaccesscontrol.view.ui.newclientqueue.NewClientQueueActivity
-import com.example.clientaccesscontrol.view.utils.FactoryVM
+import com.example.clientaccesscontrol.view.utils.FactoryViewModel
 
 class NewClientProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNewClientProfileBinding
     private val newClientProfileViewModel by viewModels<NewClientProfileVM> {
-        FactoryVM.getInstance(this)
+        FactoryViewModel.getInstance(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,7 +69,7 @@ class NewClientProfileActivity : AppCompatActivity() {
                         position: Int,
                         id: Long,
                     ) {
-                        val selectedSize = parent?.getItemAtPosition(position).toString()
+
                     }
 
                     override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -103,7 +103,7 @@ class NewClientProfileActivity : AppCompatActivity() {
                         position: Int,
                         id: Long,
                     ) {
-                        val selectedSize = parent?.getItemAtPosition(position).toString()
+
                     }
 
                     override fun onNothingSelected(p0: AdapterView<*>?) {}

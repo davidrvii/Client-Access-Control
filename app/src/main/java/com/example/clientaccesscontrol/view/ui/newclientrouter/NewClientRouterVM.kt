@@ -4,16 +4,16 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.clientaccesscontrol.data.preference.UserRepository
-import com.example.clientaccesscontrol.data.response.GetBTSResponse
-import com.example.clientaccesscontrol.data.response.GetChannelWidthResponse
-import com.example.clientaccesscontrol.data.response.GetModeResponse
-import com.example.clientaccesscontrol.data.response.GetPresharedKeyResponse
-import com.example.clientaccesscontrol.data.response.GetRadioResponse
+import com.example.clientaccesscontrol.data.preference.Repository
+import com.example.clientaccesscontrol.data.cacresponse.GetBTSResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetChannelWidthResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetModeResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetPresharedKeyResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetRadioResponse
 import com.example.clientaccesscontrol.data.result.Results
 import kotlinx.coroutines.launch
 
-class NewClientRouterVM(private val repository: UserRepository) : ViewModel() {
+class NewClientRouterVM(private val repository: Repository) : ViewModel() {
     //BTS
     private val _getBTS = MediatorLiveData<Results<GetBTSResponse>>()
     val getBTS: MutableLiveData<Results<GetBTSResponse>> = _getBTS

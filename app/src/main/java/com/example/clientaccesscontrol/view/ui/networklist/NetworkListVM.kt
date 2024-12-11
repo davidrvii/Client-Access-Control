@@ -5,21 +5,21 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.clientaccesscontrol.data.preference.UserRepository
-import com.example.clientaccesscontrol.data.response.CreateBTSResponse
-import com.example.clientaccesscontrol.data.response.CreateChannelWidthResponse
-import com.example.clientaccesscontrol.data.response.CreateModeResponse
-import com.example.clientaccesscontrol.data.response.CreatePresharedKeyResponse
-import com.example.clientaccesscontrol.data.response.CreateRadioResponse
-import com.example.clientaccesscontrol.data.response.GetBTSResponse
-import com.example.clientaccesscontrol.data.response.GetChannelWidthResponse
-import com.example.clientaccesscontrol.data.response.GetModeResponse
-import com.example.clientaccesscontrol.data.response.GetPresharedKeyResponse
-import com.example.clientaccesscontrol.data.response.GetRadioResponse
+import com.example.clientaccesscontrol.data.preference.Repository
+import com.example.clientaccesscontrol.data.cacresponse.CreateBTSResponse
+import com.example.clientaccesscontrol.data.cacresponse.CreateChannelWidthResponse
+import com.example.clientaccesscontrol.data.cacresponse.CreateModeResponse
+import com.example.clientaccesscontrol.data.cacresponse.CreatePresharedKeyResponse
+import com.example.clientaccesscontrol.data.cacresponse.CreateRadioResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetBTSResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetChannelWidthResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetModeResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetPresharedKeyResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetRadioResponse
 import com.example.clientaccesscontrol.data.result.Results
 import kotlinx.coroutines.launch
 
-class NetworkListVM(private val repository: UserRepository) : ViewModel() {
+class NetworkListVM(private val repository: Repository) : ViewModel() {
 
     //BTS
     private val _getBTS = MediatorLiveData<Results<GetBTSResponse>>()

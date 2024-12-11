@@ -5,7 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.clientaccesscontrol.data.response.ClientsItem
+import com.example.clientaccesscontrol.data.cacresponse.ClientsItem
 import com.example.clientaccesscontrol.databinding.ClientListBinding
 import com.example.clientaccesscontrol.view.ui.clientdetail.ClientDetailActivity
 

@@ -4,16 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.clientaccesscontrol.data.preference.UserRepository
-import com.example.clientaccesscontrol.data.response.DeleteBTSResponse
-import com.example.clientaccesscontrol.data.response.DeleteChannelWidthResponse
-import com.example.clientaccesscontrol.data.response.DeleteModeResponse
-import com.example.clientaccesscontrol.data.response.DeletePresharedKeyResponse
-import com.example.clientaccesscontrol.data.response.DeleteRadioResponse
+import com.example.clientaccesscontrol.data.preference.Repository
+import com.example.clientaccesscontrol.data.cacresponse.DeleteBTSResponse
+import com.example.clientaccesscontrol.data.cacresponse.DeleteChannelWidthResponse
+import com.example.clientaccesscontrol.data.cacresponse.DeleteModeResponse
+import com.example.clientaccesscontrol.data.cacresponse.DeletePresharedKeyResponse
+import com.example.clientaccesscontrol.data.cacresponse.DeleteRadioResponse
 import com.example.clientaccesscontrol.data.result.Results
 import kotlinx.coroutines.launch
 
-class NetworkFilterVM(private val repository: UserRepository) : ViewModel() {
+class NetworkFilterVM(private val repository: Repository) : ViewModel() {
 
     private val _deleteBTS = MediatorLiveData<Results<DeleteBTSResponse>>()
     val deleteBTS: LiveData<Results<DeleteBTSResponse>> = _deleteBTS

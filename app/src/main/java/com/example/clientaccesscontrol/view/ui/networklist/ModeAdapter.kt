@@ -5,7 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.clientaccesscontrol.data.response.ModesItem
+import com.example.clientaccesscontrol.data.cacresponse.ModesItem
 import com.example.clientaccesscontrol.databinding.NetworkListBinding
 import com.example.clientaccesscontrol.view.ui.networkfilter.NetworkFilterActivity
 

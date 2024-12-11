@@ -24,7 +24,7 @@ import com.example.clientaccesscontrol.view.ui.connect.ConnectActivity
 import com.example.clientaccesscontrol.view.ui.filter.FilterBottomSheet
 import com.example.clientaccesscontrol.view.ui.network.NetworkActivity
 import com.example.clientaccesscontrol.view.ui.newclientprofile.NewClientProfileActivity
-import com.example.clientaccesscontrol.view.utils.FactoryVM
+import com.example.clientaccesscontrol.view.utils.FactoryViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bindingDialog: CustomLogoutDialogBinding
     private lateinit var clientAdapter: ClientAdapter
     private val mainViewModel by viewModels<MainVM> {
-        FactoryVM.getInstance(this)
+        FactoryViewModel.getInstance(this)
     }
     private var clicked = false
 
@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity() {
                 is Results.Success -> {
                     clientAdapter.updateData(result.data.clients?.filterNotNull() ?: emptyList())
                 }
+
                 is Results.Error -> {}
                 is Results.Loading -> {}
             }

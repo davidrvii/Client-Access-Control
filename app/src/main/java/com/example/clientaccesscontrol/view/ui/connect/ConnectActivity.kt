@@ -17,7 +17,7 @@ import com.example.clientaccesscontrol.R
 import com.example.clientaccesscontrol.databinding.ActivityConnectBinding
 import com.example.clientaccesscontrol.view.ui.home.MainActivity
 import com.example.clientaccesscontrol.view.ui.home.MainVM
-import com.example.clientaccesscontrol.view.utils.FactoryVM
+import com.example.clientaccesscontrol.view.utils.FactoryViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -27,10 +27,10 @@ import retrofit2.HttpException
 class ConnectActivity : AppCompatActivity() {
 
     private val connectViewModel by viewModels<ConnectVM> {
-        FactoryVM.getInstance(this)
+        FactoryViewModel.getInstance(this)
     }
     private val session by viewModels<MainVM> {
-        FactoryVM.getInstance(this)
+        FactoryViewModel.getInstance(this)
     }
     private lateinit var binding: ActivityConnectBinding
 

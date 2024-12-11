@@ -1,29 +1,29 @@
-package com.example.clientaccesscontrol.data.response
+package com.example.clientaccesscontrol.data.cacresponse
 
 import com.google.gson.annotations.SerializedName
 
-data class GetSpeedResponse(
+data class GetModeResponse(
+
+	@field:SerializedName("modes")
+	val modes: List<ModesItem?>? = null,
 
 	@field:SerializedName("message")
 	val message: String? = null,
-
-	@field:SerializedName("speed")
-	val speed: List<SpeedItem?>? = null,
 
 	@field:SerializedName("statusCode")
 	val statusCode: Int? = null
 )
 
-data class SpeedItem(
+data class ModesItem(
 
-	@field:SerializedName("internet_speed")
-	val internetSpeed: String? = null,
+	@field:SerializedName("mode")
+	val mode: String? = null,
+
+	@field:SerializedName("mode_id")
+	val modeId: Int? = null,
 
 	@field:SerializedName("update_at")
 	val updateAt: String? = null,
-
-	@field:SerializedName("speed_id")
-	val speedId: Int? = null,
 
 	@field:SerializedName("create_at")
 	val createAt: String? = null

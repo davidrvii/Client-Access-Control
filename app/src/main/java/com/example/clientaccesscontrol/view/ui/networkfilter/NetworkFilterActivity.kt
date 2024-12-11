@@ -17,7 +17,7 @@ import com.example.clientaccesscontrol.R
 import com.example.clientaccesscontrol.data.result.Results
 import com.example.clientaccesscontrol.databinding.ActivityNetworkFilterBinding
 import com.example.clientaccesscontrol.databinding.CustomDeleteDialogBinding
-import com.example.clientaccesscontrol.view.utils.FactoryVM
+import com.example.clientaccesscontrol.view.utils.FactoryViewModel
 
 class NetworkFilterActivity : AppCompatActivity() {
 
@@ -27,7 +27,7 @@ class NetworkFilterActivity : AppCompatActivity() {
     private lateinit var network: String
     private lateinit var bindingDialog: CustomDeleteDialogBinding
     private val networkFilterViewModel by viewModels<NetworkFilterVM> {
-        FactoryVM.getInstance(this)
+        FactoryViewModel.getInstance(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

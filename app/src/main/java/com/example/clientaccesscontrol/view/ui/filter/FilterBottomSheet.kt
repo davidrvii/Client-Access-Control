@@ -11,7 +11,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.example.clientaccesscontrol.view.utils.ViewUtils
 import com.example.clientaccesscontrol.R
 import com.example.clientaccesscontrol.databinding.BottomSheetFilterBinding
-import com.example.clientaccesscontrol.view.utils.FactoryVM
+import com.example.clientaccesscontrol.view.utils.FactoryViewModel
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.badge.ExperimentalBadgeUtils
@@ -24,7 +24,7 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
     private lateinit var binding: BottomSheetFilterBinding
     private var badgeDrawable: BadgeDrawable? = null
     private val filterBottomSheetVM by viewModels<FilterBottomSheetVM> {
-        FactoryVM.getInstance(requireContext())
+        FactoryViewModel.getInstance(requireContext())
     }
 
     override fun onCreateView(

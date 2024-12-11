@@ -1,11 +1,11 @@
-package com.example.clientaccesscontrol.data.response
+package com.example.clientaccesscontrol.data.cacresponse
 
 import com.google.gson.annotations.SerializedName
 
-data class DeleteModeResponse(
+data class DeleteClientResponse(
 
-	@field:SerializedName("modeId")
-	val modeId: String? = null,
+	@field:SerializedName("clientId")
+	val clientId: String? = null,
 
 	@field:SerializedName("message")
 	val message: String? = null,

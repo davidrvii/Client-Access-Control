@@ -3,36 +3,38 @@ package com.example.clientaccesscontrol.data.preference
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
-import com.example.clientaccesscontrol.data.response.CreateBTSResponse
-import com.example.clientaccesscontrol.data.response.CreateChannelWidthResponse
-import com.example.clientaccesscontrol.data.response.CreateModeResponse
-import com.example.clientaccesscontrol.data.response.CreatePresharedKeyResponse
-import com.example.clientaccesscontrol.data.response.CreateRadioResponse
-import com.example.clientaccesscontrol.data.response.DeleteBTSResponse
-import com.example.clientaccesscontrol.data.response.DeleteChannelWidthResponse
-import com.example.clientaccesscontrol.data.response.DeleteClientResponse
-import com.example.clientaccesscontrol.data.response.DeleteModeResponse
-import com.example.clientaccesscontrol.data.response.DeletePresharedKeyResponse
-import com.example.clientaccesscontrol.data.response.DeleteRadioResponse
-import com.example.clientaccesscontrol.data.response.GetAccessResponse
-import com.example.clientaccesscontrol.data.response.GetAllClientResponse
-import com.example.clientaccesscontrol.data.response.GetBTSResponse
-import com.example.clientaccesscontrol.data.response.GetChannelWidthResponse
-import com.example.clientaccesscontrol.data.response.GetClientDetailResponse
-import com.example.clientaccesscontrol.data.response.GetModeResponse
-import com.example.clientaccesscontrol.data.response.GetPresharedKeyResponse
-import com.example.clientaccesscontrol.data.response.GetRadioResponse
-import com.example.clientaccesscontrol.data.response.GetSpeedResponse
-import com.example.clientaccesscontrol.data.response.RegisterResponse
-import com.example.clientaccesscontrol.data.response.UpdateClientDetailResponse
-import com.example.clientaccesscontrol.data.response.UpdateNetworkResponse
+import com.example.clientaccesscontrol.data.cacresponse.CreateBTSResponse
+import com.example.clientaccesscontrol.data.cacresponse.CreateChannelWidthResponse
+import com.example.clientaccesscontrol.data.cacresponse.CreateModeResponse
+import com.example.clientaccesscontrol.data.cacresponse.CreatePresharedKeyResponse
+import com.example.clientaccesscontrol.data.cacresponse.CreateRadioResponse
+import com.example.clientaccesscontrol.data.cacresponse.DeleteBTSResponse
+import com.example.clientaccesscontrol.data.cacresponse.DeleteChannelWidthResponse
+import com.example.clientaccesscontrol.data.cacresponse.DeleteClientResponse
+import com.example.clientaccesscontrol.data.cacresponse.DeleteModeResponse
+import com.example.clientaccesscontrol.data.cacresponse.DeletePresharedKeyResponse
+import com.example.clientaccesscontrol.data.cacresponse.DeleteRadioResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetAccessResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetAllClientResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetBTSResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetChannelWidthResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetClientDetailResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetModeResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetPresharedKeyResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetRadioResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetSpeedResponse
+import com.example.clientaccesscontrol.data.cacresponse.RegisterResponse
+import com.example.clientaccesscontrol.data.cacresponse.UpdateClientDetailResponse
+import com.example.clientaccesscontrol.data.cacresponse.UpdateNetworkResponse
 import com.example.clientaccesscontrol.data.result.Results
 import com.example.clientaccesscontrol.data.retrofit.ServiceApiCAC
+import com.example.clientaccesscontrol.data.retrofit.ServiceApiMikrotik
 import kotlinx.coroutines.flow.Flow
 
-class UserRepository private constructor(
+class Repository private constructor(
     private val userPreference: UserPreference,
     private val apiServiceCAC: ServiceApiCAC,
+    private val apiServiceMikrotik: ServiceApiMikrotik
 ) {
 
     private suspend fun saveToken(token: String) {
@@ -387,14 +389,14 @@ class UserRepository private constructor(
 
     companion object {
         @Volatile
-        private var instance: UserRepository? = null
+        private var instance: Repository? = null
         fun getInstance(
             userPreference: UserPreference,
-            /*apiServiceMikrotik: ServiceApiMikrotik,*/
             apiServiceCAC: ServiceApiCAC,
-        ): UserRepository =
+            apiServiceMikrotik: ServiceApiMikrotik
+        ): Repository =
             instance ?: synchronized(this) {
-                instance ?: UserRepository(userPreference, /*apiServiceMikrotik,*/ apiServiceCAC)
+                instance ?: Repository(userPreference, apiServiceCAC, apiServiceMikrotik)
             }.also { instance = it }
     }
 }

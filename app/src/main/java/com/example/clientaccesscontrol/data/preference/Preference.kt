@@ -8,7 +8,9 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "session")
 
@@ -32,29 +34,39 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         }
     }
 
-    suspend fun saveBaseUrl(baseUrl: String) {
-        dataStore.edit { preferences ->
-            preferences[BASE_URL_KEY] = baseUrl
-        }
-    }
-
-    fun getBaseUrl(): Flow<String> {
-        return dataStore.data.map { preferences ->
-            preferences[BASE_URL_KEY] ?: "http://192.168.203.162/"
-        }
-    }
-
     suspend fun logout() {
         dataStore.edit { preferences ->
             preferences.clear()
         }
     }
 
+    suspend fun saveBaseUrl(baseUrl: String) {
+        val formattedUrl = when {
+            baseUrl.startsWith("http://") && baseUrl.endsWith("/") -> baseUrl
+            baseUrl.startsWith("https://") && baseUrl.endsWith("/") -> baseUrl
+            else -> "http://$baseUrl/"
+        }
+
+        dataStore.edit { preferences ->
+            preferences[IP_ADDRESS_KEY] = formattedUrl
+        }
+    }
+
+    fun getBaseUrl(): String {
+        var baseUrl = "http://192.168.203.162/"
+        runBlocking {
+            dataStore.data.first { preferences ->
+                baseUrl = "${preferences[IP_ADDRESS_KEY]}"
+                true
+            }
+        }
+        return baseUrl
+    }
+
     companion object {
         @Volatile
         private var INSTANCE: UserPreference? = null
 
-        private val BASE_URL_KEY = stringPreferencesKey("base_url")
         private val IP_ADDRESS_KEY = stringPreferencesKey("ip_address")
         private val TOKEN_KEY = stringPreferencesKey("token")
         private val IS_LOGIN_KEY = booleanPreferencesKey("isLogin")

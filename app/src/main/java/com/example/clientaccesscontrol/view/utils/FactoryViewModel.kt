@@ -3,7 +3,7 @@ package com.example.clientaccesscontrol.view.utils
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.clientaccesscontrol.data.preference.UserRepository
+import com.example.clientaccesscontrol.data.preference.Repository
 import com.example.clientaccesscontrol.injection.Data
 import com.example.clientaccesscontrol.view.ui.clientdetail.ClientDetailVM
 import com.example.clientaccesscontrol.view.ui.connect.ConnectVM
@@ -16,8 +16,8 @@ import com.example.clientaccesscontrol.view.ui.newclientprofile.NewClientProfile
 import com.example.clientaccesscontrol.view.ui.newclientqueue.NewClientQueueVM
 import com.example.clientaccesscontrol.view.ui.newclientrouter.NewClientRouterVM
 
-class FactoryVM(
-    private val repository: UserRepository
+class FactoryViewModel(
+    private val repository: Repository
 ) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
@@ -71,10 +71,10 @@ class FactoryVM(
 
     companion object {
         @Volatile
-        private var instance: FactoryVM? = null
-        fun getInstance(context: Context): FactoryVM =
-            instance ?: synchronized(FactoryVM::class.java) {
-                instance ?: FactoryVM(Data.provideRepository(context))
+        private var instance: FactoryViewModel? = null
+        fun getInstance(context: Context): FactoryViewModel =
+            instance ?: synchronized(FactoryViewModel::class.java) {
+                instance ?: FactoryViewModel(Data.provideCACRepository(context))
             }.also {
                 instance = it
             }

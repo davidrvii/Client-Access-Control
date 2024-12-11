@@ -19,7 +19,7 @@ import com.example.clientaccesscontrol.R
 import com.example.clientaccesscontrol.data.result.Results
 import com.example.clientaccesscontrol.databinding.ActivityEditRouterBinding
 import com.example.clientaccesscontrol.databinding.CustomSaveDialogBinding
-import com.example.clientaccesscontrol.view.utils.FactoryVM
+import com.example.clientaccesscontrol.view.utils.FactoryViewModel
 
 class EditRouterActivity : AppCompatActivity() {
 
@@ -32,7 +32,7 @@ class EditRouterActivity : AppCompatActivity() {
     private var channelWidthSelectedId: Int = 1
     private var presharedKeySelectedId: Int = 1
     private val editRouterViewModel by viewModels<EditRouterVM> {
-        FactoryVM.getInstance(this)
+        FactoryViewModel.getInstance(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

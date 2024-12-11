@@ -5,16 +5,16 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.clientaccesscontrol.data.preference.UserRepository
-import com.example.clientaccesscontrol.data.response.DeleteClientResponse
-import com.example.clientaccesscontrol.data.response.GetAccessResponse
-import com.example.clientaccesscontrol.data.response.GetClientDetailResponse
-import com.example.clientaccesscontrol.data.response.GetSpeedResponse
-import com.example.clientaccesscontrol.data.response.UpdateClientDetailResponse
+import com.example.clientaccesscontrol.data.cacresponse.DeleteClientResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetAccessResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetClientDetailResponse
+import com.example.clientaccesscontrol.data.cacresponse.GetSpeedResponse
+import com.example.clientaccesscontrol.data.cacresponse.UpdateClientDetailResponse
+import com.example.clientaccesscontrol.data.preference.Repository
 import com.example.clientaccesscontrol.data.result.Results
 import kotlinx.coroutines.launch
 
-class ClientDetailVM(private val repository: UserRepository) : ViewModel() {
+class ClientDetailVM(private val repository: Repository) : ViewModel() {
 
     //Delete Client
     private val _deleteClient = MediatorLiveData<Results<DeleteClientResponse>>()
@@ -24,8 +24,8 @@ class ClientDetailVM(private val repository: UserRepository) : ViewModel() {
         viewModelScope.launch {
             repository.getSession().collect { user ->
                 user.token.let { token ->
-                    val token = "Bearer $token"
-                    val source = repository.deleteClient(token, id)
+                    val bearerToken = "Bearer $token"
+                    val source = repository.deleteClient(bearerToken, id)
                     _deleteClient.addSource(source) { result ->
                         _deleteClient.value = result
                         _deleteClient.removeSource(source)
@@ -45,8 +45,8 @@ class ClientDetailVM(private val repository: UserRepository) : ViewModel() {
             try {
                 repository.getSession().collect { user ->
                     user.token.let { token ->
-                        val token = "Bearer $token"
-                        val response = repository.updateClient(token, id, access, speed)
+                        val bearerToken = "Bearer $token"
+                        val response = repository.updateClient(bearerToken, id, access, speed)
                         _updateClient.value = Results.Success(response)
                     }
                 }
