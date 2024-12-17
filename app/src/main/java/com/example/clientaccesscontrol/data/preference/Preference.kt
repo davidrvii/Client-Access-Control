@@ -18,7 +18,9 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
     fun getSession(): Flow<UserModel> {
         return dataStore.data.map { preferences ->
             UserModel(
-                preferences[IP_ADDRESS_KEY] ?: "",
+                preferences[USERNAME_KEY] ?: "",
+                preferences[PASSWORD_KEY] ?: "",
+                preferences[IP_ADDRESS_KEY] ?: "https://192.168.203.162/rest/",
                 preferences[TOKEN_KEY] ?: "",
                 preferences[IS_LOGIN_KEY] ?: false
             )
@@ -34,17 +36,11 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         }
     }
 
-    suspend fun logout() {
-        dataStore.edit { preferences ->
-            preferences.clear()
-        }
-    }
-
     suspend fun saveBaseUrl(baseUrl: String) {
         val formattedUrl = when {
-            baseUrl.startsWith("http://") && baseUrl.endsWith("/") -> baseUrl
-            baseUrl.startsWith("https://") && baseUrl.endsWith("/") -> baseUrl
-            else -> "http://$baseUrl/"
+            baseUrl.startsWith("http://") && baseUrl.endsWith("/rest/") -> baseUrl
+            baseUrl.startsWith("https://") && baseUrl.endsWith("/rest/") -> baseUrl
+            else -> "https://$baseUrl/rest/"
         }
 
         dataStore.edit { preferences ->
@@ -52,21 +48,38 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         }
     }
 
+    suspend fun saveMikrotikLogin(username: String, password: String) {
+        dataStore.edit { preferences ->
+            preferences[USERNAME_KEY] = username
+            preferences[PASSWORD_KEY] = password
+        }
+    }
+
     fun getBaseUrl(): String {
-        var baseUrl = "http://192.168.203.162/"
+        var baseUrl = "https://192.168.203.162/rest/" // Default URL
         runBlocking {
             dataStore.data.first { preferences ->
-                baseUrl = "${preferences[IP_ADDRESS_KEY]}"
+                if (preferences[IP_ADDRESS_KEY] != null) {
+                    baseUrl = preferences[IP_ADDRESS_KEY].toString()
+                }
                 true
             }
         }
         return baseUrl
     }
 
+    suspend fun logout() {
+        dataStore.edit { preferences ->
+            preferences.clear()
+        }
+    }
+
     companion object {
         @Volatile
         private var INSTANCE: UserPreference? = null
 
+        private val USERNAME_KEY = stringPreferencesKey("username")
+        private val PASSWORD_KEY = stringPreferencesKey("password")
         private val IP_ADDRESS_KEY = stringPreferencesKey("ip_address")
         private val TOKEN_KEY = stringPreferencesKey("token")
         private val IS_LOGIN_KEY = booleanPreferencesKey("isLogin")

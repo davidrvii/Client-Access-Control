@@ -34,7 +34,7 @@ import kotlinx.coroutines.flow.Flow
 class Repository private constructor(
     private val userPreference: UserPreference,
     private val apiServiceCAC: ServiceApiCAC,
-    private val apiServiceMikrotik: ServiceApiMikrotik
+    private val apiServiceMikrotik: ServiceApiMikrotik,
 ) {
 
     private suspend fun saveToken(token: String) {
@@ -45,6 +45,11 @@ class Repository private constructor(
     private suspend fun saveUrlBase(baseUrl: String) {
         Log.d("UserRepository", "Base URL Saved in Session: $baseUrl")
         userPreference.saveBaseUrl(baseUrl)
+    }
+
+    private suspend fun saveMikortikLogin(username: String, password: String) {
+        Log.d("UserRepository", "Username & Password for Mikrotik Login : $username & $password")
+        userPreference.saveMikrotikLogin(username, password)
     }
 
     fun getSession(): Flow<UserModel> {
@@ -73,6 +78,10 @@ class Repository private constructor(
         loginResponse.loginResult?.ipAddress?.let {
             Log.d("UserRepository", "Saving base URL: $it")
             saveUrlBase(it)
+        }
+        loginResponse.loginResult?.let {
+            Log.d("UserRepository", "Saving username & password: ${it.username} & ${it.password}")
+            saveMikortikLogin(it.username.toString(), it.password.toString())
         }
     }
 
@@ -376,7 +385,7 @@ class Repository private constructor(
 
     suspend fun deleteClient(
         token: String,
-        id: Int
+        id: Int,
     ): LiveData<Results<DeleteClientResponse>> = liveData {
         emit(Results.Loading)
         try {
@@ -393,7 +402,7 @@ class Repository private constructor(
         fun getInstance(
             userPreference: UserPreference,
             apiServiceCAC: ServiceApiCAC,
-            apiServiceMikrotik: ServiceApiMikrotik
+            apiServiceMikrotik: ServiceApiMikrotik,
         ): Repository =
             instance ?: synchronized(this) {
                 instance ?: Repository(userPreference, apiServiceCAC, apiServiceMikrotik)
