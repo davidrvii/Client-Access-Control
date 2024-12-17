@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 data class GetQueueTreeResponse(
 
-	@field:SerializedName("GetQueueTreeResponse")
-	val getQueueTreeResponse: List<GetQueueTreeResponseItem?>? = null
+	@field:SerializedName("queueTree")
+	val queueTree: List<GetQueueTreeResponseItem>? = emptyList()
 )
 
 data class GetQueueTreeResponseItem(

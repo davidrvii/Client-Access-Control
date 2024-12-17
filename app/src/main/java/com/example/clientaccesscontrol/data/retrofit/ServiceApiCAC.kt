@@ -85,82 +85,6 @@ interface ServiceApiCAC {
         @Field("preshared_key") presharedKey: String,
     ): CreatePresharedKeyResponse
 
-    @GET("bts/")
-    suspend fun getBTS(
-        @Header("Authorization") token: String,
-    ): GetBTSResponse
-
-    @GET("radio/")
-    suspend fun getRadio(
-        @Header("Authorization") token: String,
-    ): GetRadioResponse
-
-    @GET("mode/")
-    suspend fun getMode(
-        @Header("Authorization") token: String,
-    ): GetModeResponse
-
-    @GET("channelWidth/")
-    suspend fun getChannelWidth(
-        @Header("Authorization") token: String,
-    ): GetChannelWidthResponse
-
-    @GET("presharedKey/")
-    suspend fun getPresharedKey(
-        @Header("Authorization") token: String,
-    ): GetPresharedKeyResponse
-
-    @DELETE("bts/{id}")
-    suspend fun deleteBTS(
-        @Header("Authorization") token: String,
-        @Path("id") id: Int,
-    ): DeleteBTSResponse
-
-    @DELETE("mode/{id}")
-    suspend fun deleteMode(
-        @Header("Authorization") token: String,
-        @Path("id") id: Int,
-    ): DeleteModeResponse
-
-    @DELETE("radio/{id}")
-    suspend fun deleteRadio(
-        @Header("Authorization") token: String,
-        @Path("id") id: Int,
-    ): DeleteRadioResponse
-
-    @DELETE("channelWidth/{id}")
-    suspend fun deleteChannelWidth(
-        @Header("Authorization") token: String,
-        @Path("id") id: Int,
-    ): DeleteChannelWidthResponse
-
-    @DELETE("presharedKey/{id}")
-    suspend fun deletePresharedKey(
-        @Header("Authorization") token: String,
-        @Path("id") id: Int,
-    ): DeletePresharedKeyResponse
-
-    @GET("access/")
-    suspend fun getAccess(
-        @Header("Authorization") token: String,
-    ): GetAccessResponse
-
-    @GET("speed/")
-    suspend fun getSpeed(
-        @Header("Authorization") token: String,
-    ): GetSpeedResponse
-
-    @GET("client/byUser")
-    suspend fun getAllClient(
-        @Header("Authorization") token: String,
-    ): GetAllClientResponse
-
-    @GET("client/{id}")
-    suspend fun getClientDetail(
-        @Header("Authorization") token: String,
-        @Path("id") id: Int,
-    ): GetClientDetailResponse
-
     @FormUrlEncoded
     @PATCH("network/{id}")
     suspend fun updateNetwork(
@@ -191,6 +115,82 @@ interface ServiceApiCAC {
         @Field("fk_access_id") access: Int,
         @Field("fk_speed_id") speed: Int,
     ): UpdateClientDetailResponse
+
+    @GET("bts/")
+    suspend fun getBTS(
+        @Header("Authorization") token: String,
+    ): GetBTSResponse
+
+    @GET("radio/")
+    suspend fun getRadio(
+        @Header("Authorization") token: String,
+    ): GetRadioResponse
+
+    @GET("mode/")
+    suspend fun getMode(
+        @Header("Authorization") token: String,
+    ): GetModeResponse
+
+    @GET("channelWidth/")
+    suspend fun getChannelWidth(
+        @Header("Authorization") token: String,
+    ): GetChannelWidthResponse
+
+    @GET("presharedKey/")
+    suspend fun getPresharedKey(
+        @Header("Authorization") token: String,
+    ): GetPresharedKeyResponse
+
+    @GET("access/")
+    suspend fun getAccess(
+        @Header("Authorization") token: String,
+    ): GetAccessResponse
+
+    @GET("speed/")
+    suspend fun getSpeed(
+        @Header("Authorization") token: String,
+    ): GetSpeedResponse
+
+    @GET("client/byUser")
+    suspend fun getAllClient(
+        @Header("Authorization") token: String,
+    ): GetAllClientResponse
+
+    @GET("client/{id}")
+    suspend fun getClientDetail(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int,
+    ): GetClientDetailResponse
+
+    @DELETE("bts/{id}")
+    suspend fun deleteBTS(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int,
+    ): DeleteBTSResponse
+
+    @DELETE("mode/{id}")
+    suspend fun deleteMode(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int,
+    ): DeleteModeResponse
+
+    @DELETE("radio/{id}")
+    suspend fun deleteRadio(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int,
+    ): DeleteRadioResponse
+
+    @DELETE("channelWidth/{id}")
+    suspend fun deleteChannelWidth(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int,
+    ): DeleteChannelWidthResponse
+
+    @DELETE("presharedKey/{id}")
+    suspend fun deletePresharedKey(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int,
+    ): DeletePresharedKeyResponse
 
     @DELETE("client/{id}")
     suspend fun deleteClient(

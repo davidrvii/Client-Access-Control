@@ -3,6 +3,7 @@ package com.example.clientaccesscontrol.view.ui.home
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
@@ -61,12 +62,33 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        Log.d("MainActivity", "onCreate called")
         mainViewModel.getSession()
 
         buttonMenuAction()
         searchBarAction()
         buttonNewClientAction()
         setupClientList()
+
+        mainViewModel.getQueueTree.observe(this) { result ->
+            when (result) {
+                is Results.Success -> {
+                    if (result.data.isNotEmpty()) {
+                        Log.d("Mikrotik Queue Tree", "Success Get Queue Tree : ${result.data}")
+                    } else {
+                        Log.d("Mikrotik Queue Tree", "Empty Queue Tree")
+                    }
+                }
+
+                is Results.Error -> {
+                    Log.e("MainActivity", "Error: ${result.error}")
+                }
+
+                is Results.Loading -> {
+                    Log.d("MainActivity", "Loading...")
+                }
+            }
+        }
     }
 
     private fun setupClientList() {

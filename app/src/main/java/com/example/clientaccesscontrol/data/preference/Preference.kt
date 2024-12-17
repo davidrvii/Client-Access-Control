@@ -8,9 +8,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "session")
 
@@ -53,19 +51,6 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
             preferences[USERNAME_KEY] = username
             preferences[PASSWORD_KEY] = password
         }
-    }
-
-    fun getBaseUrl(): String {
-        var baseUrl = "https://192.168.203.162/rest/" // Default URL
-        runBlocking {
-            dataStore.data.first { preferences ->
-                if (preferences[IP_ADDRESS_KEY] != null) {
-                    baseUrl = preferences[IP_ADDRESS_KEY].toString()
-                }
-                true
-            }
-        }
-        return baseUrl
     }
 
     suspend fun logout() {

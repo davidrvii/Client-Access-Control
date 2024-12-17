@@ -26,6 +26,7 @@ import com.example.clientaccesscontrol.data.cacresponse.GetSpeedResponse
 import com.example.clientaccesscontrol.data.cacresponse.RegisterResponse
 import com.example.clientaccesscontrol.data.cacresponse.UpdateClientDetailResponse
 import com.example.clientaccesscontrol.data.cacresponse.UpdateNetworkResponse
+import com.example.clientaccesscontrol.data.mikrotikresponse.GetQueueTreeResponseItem
 import com.example.clientaccesscontrol.data.result.Results
 import com.example.clientaccesscontrol.data.retrofit.ServiceApiCAC
 import com.example.clientaccesscontrol.data.retrofit.ServiceApiMikrotik
@@ -151,6 +152,19 @@ class Repository private constructor(
             val response = apiServiceCAC.createChannelWidth(token, channelWidth)
             emit(Results.Success(response))
         } catch (e: Exception) {
+            emit(Results.Error(e.message.toString()))
+        }
+    }
+
+    suspend fun getQueueTree(): LiveData<Results<List<GetQueueTreeResponseItem>>> = liveData {
+        emit(Results.Loading)
+        try {
+            Log.d("Repository", "Calling getQueueTree()")
+            val response = apiServiceMikrotik.getQueueTree()
+            Log.d("Repository", "Queue Tree Response: $response")
+            emit(Results.Success(response))
+        } catch (e: Exception) {
+            Log.e("Repository", "Error: ${e.message}")
             emit(Results.Error(e.message.toString()))
         }
     }
