@@ -9,6 +9,7 @@ import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +21,7 @@ import com.example.clientaccesscontrol.data.result.Results
 import com.example.clientaccesscontrol.databinding.ActivityClientDetailBinding
 import com.example.clientaccesscontrol.databinding.CustomDeleteDialogBinding
 import com.example.clientaccesscontrol.view.ui.editrouter.EditRouterActivity
+import com.example.clientaccesscontrol.view.ui.home.MainActivity
 import com.example.clientaccesscontrol.view.utils.FactoryViewModel
 
 class ClientDetailActivity : AppCompatActivity() {
@@ -235,8 +237,17 @@ class ClientDetailActivity : AppCompatActivity() {
             showCustomDialog()
         }
         binding.btBack.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
             finish()
         }
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val intent = Intent(this@ClientDetailActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        })
         binding.btEdit.setOnClickListener {
             val intent = Intent(this, EditRouterActivity::class.java).apply {
                 putExtra(EditRouterActivity.CLIENT_ID, clientId)

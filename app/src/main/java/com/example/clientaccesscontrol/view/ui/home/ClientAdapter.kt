@@ -1,7 +1,10 @@
 package com.example.clientaccesscontrol.view.ui.home
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +12,9 @@ import com.example.clientaccesscontrol.data.cacresponse.ClientsItem
 import com.example.clientaccesscontrol.databinding.ClientListBinding
 import com.example.clientaccesscontrol.view.ui.clientdetail.ClientDetailActivity
 
-class ClientAdapter(private var listClient: List<ClientsItem>) :
+class ClientAdapter(
+    private var listClient: List<ClientsItem>,
+) :
     RecyclerView.Adapter<ClientAdapter.ViewHolder>() {
 
     class ViewHolder(private val binding: ClientListBinding) :
@@ -18,12 +23,21 @@ class ClientAdapter(private var listClient: List<ClientsItem>) :
         fun bind(item: ClientsItem) {
             binding.tvClientName.text = item.name
             binding.tvClientIPAddress.text = item.ipAddress
+            binding.ivCLientAccessIndicator.setColorFilter(
+                when (item.internetAccess) {
+                    "Non-Actived" -> Color.RED
+                    "Actived" -> Color.GREEN
+                    "Not Found" -> Color.BLACK
+                    else -> Color.BLACK
+                }
+            )
 
             binding.root.setOnClickListener {
                 val intent = Intent(itemView.context, ClientDetailActivity::class.java).apply {
                     putExtra(ClientDetailActivity.CLIENT_ID, item.clientId)
                 }
                 itemView.context.startActivity(intent)
+                (itemView.context as Activity).finish()
             }
         }
     }
@@ -42,6 +56,7 @@ class ClientAdapter(private var listClient: List<ClientsItem>) :
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(newList: List<ClientsItem>) {
+        Log.d("ClientAdapter", "Updating data: ${newList.size} items")
         listClient = newList
         notifyDataSetChanged()
     }

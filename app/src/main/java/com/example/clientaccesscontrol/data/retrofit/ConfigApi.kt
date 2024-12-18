@@ -128,13 +128,4 @@ object ConfigApi {
 
         return retrofit.create(ServiceApiMikrotik::class.java)
     }
-
-//    suspend fun testApiService(apiService: ServiceApiMikrotik) {
-//        try {
-//            val response = apiService.getQueueTree()
-//            Log.d("API Response", "Response: $response")
-//        } catch (e: Exception) {
-//            Log.e("API Response", "Request failed: ${e.message}")
-//        }
-//    }
 }

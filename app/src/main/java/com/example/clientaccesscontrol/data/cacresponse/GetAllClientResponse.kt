@@ -19,6 +19,9 @@ data class ClientsItem(
 	@field:SerializedName("internet_access")
 	val internetAccess: String? = null,
 
+	@field:SerializedName("speed_id")
+	val speedId: Int? = null,
+
 	@field:SerializedName("name")
 	val name: String? = null,
 
@@ -26,5 +29,8 @@ data class ClientsItem(
 	val ipAddress: String? = null,
 
 	@field:SerializedName("client_id")
-	val clientId: Int? = null
+	val clientId: Int? = null,
+
+	@field:SerializedName("comment")
+	val comment: String? = null
 )

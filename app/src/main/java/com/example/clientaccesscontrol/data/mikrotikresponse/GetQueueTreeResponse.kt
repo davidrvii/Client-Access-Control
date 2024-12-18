@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class GetQueueTreeResponse(
 
 	@field:SerializedName("queueTree")
-	val queueTree: List<GetQueueTreeResponseItem>? = emptyList()
+	val queueTree: List<GetQueueTreeResponseItem?>? = null
 )
 
 data class GetQueueTreeResponseItem(
@@ -63,6 +63,9 @@ data class GetQueueTreeResponseItem(
 
 	@field:SerializedName("packet-mark")
 	val packetMark: String? = null,
+
+	@field:SerializedName("comment")
+	val comment: String? = null,
 
 	@field:SerializedName("disabled")
 	val disabled: String? = null,

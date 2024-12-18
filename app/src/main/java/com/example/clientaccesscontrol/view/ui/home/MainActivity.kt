@@ -62,30 +62,55 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        Log.d("MainActivity", "onCreate called")
         mainViewModel.getSession()
 
         buttonMenuAction()
         searchBarAction()
         buttonNewClientAction()
         setupClientList()
+    }
 
-        mainViewModel.getQueueTree.observe(this) { result ->
-            when (result) {
-                is Results.Success -> {
-                    if (result.data.isNotEmpty()) {
-                        Log.d("Mikrotik Queue Tree", "Success Get Queue Tree : ${result.data}")
-                    } else {
-                        Log.d("Mikrotik Queue Tree", "Empty Queue Tree")
+    private fun updateClientList() {
+        Log.d("MainActivity", "Updating client list")
+
+        val queueTrees = (mainViewModel.getQueueTree.value as? Results.Success)?.data
+        Log.d("MainActivity", "Queue Trees: $queueTrees")
+
+        val clients = (mainViewModel.getAllClient.value as? Results.Success)?.data?.clients
+        Log.d("MainActivity", "Clients: $clients")
+
+        if (clients != null && queueTrees != null) {
+            Log.d("MainActivity", "Checking Client Data in Queue Tree Data")
+            val queueTreeComments = queueTrees.map { it.comment }
+            clients.forEach { client ->
+                if (!queueTreeComments.contains(client?.comment)) {
+                    mainViewModel.updateClient(client?.clientId!!, 3, client.speedId!!)
+                    mainViewModel.updateClient.observe(this) { result ->
+                        when (result) {
+                            is Results.Success -> {
+                                Log.d("MainActivity", "Client updated: ${client.clientId}")
+                            }
+
+                            is Results.Error -> {
+                                Log.d("MainActivity", "Error updating client: ${result.error}")
+                            }
+
+                            is Results.Loading -> {
+                                Log.d("MainActivity", "Loading client update...")
+                            }
+                        }
                     }
+                } else {
+                    mainViewModel.updateClient(client?.clientId!!, 2, client.speedId!!)
                 }
+            }
+        }
 
-                is Results.Error -> {
-                    Log.e("MainActivity", "Error: ${result.error}")
-                }
-
-                is Results.Loading -> {
-                    Log.d("MainActivity", "Loading...")
+        if (queueTrees != null && clients != null) {
+            val clientComment = clients.map { it?.comment }
+            queueTrees.forEach { queueTree ->
+                if (!clientComment.contains(queueTree.comment)) {
+                    Log.d("MainActivity", "Queue tree not found in client list: ${queueTree.comment}")
                 }
             }
         }
@@ -95,17 +120,38 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.getAllClient.observe(this) { result ->
             when (result) {
                 is Results.Success -> {
+                    Log.d("MainActivity", "Received client data: ${result.data.clients}")
                     clientAdapter.updateData(result.data.clients?.filterNotNull() ?: emptyList())
+                    updateClientList()
                 }
 
-                is Results.Error -> {}
-                is Results.Loading -> {}
+                is Results.Error -> {
+                    Log.d("MainActivity", "Error: ${result.error}")
+                }
+
+                is Results.Loading -> {
+                    Log.d("MainActivity", "Loading client data...")
+                }
+            }
+        }
+        mainViewModel.getQueueTree.observe(this) { result ->
+            when (result) {
+                is Results.Success -> {
+                    Log.d("MainActivity", "Received queue tree data: ${result.data}")
+                }
+                is Results.Error -> {
+                    Log.d("MainActivity", "Error: ${result.error}")
+                }
+                is Results.Loading -> {
+                    Log.d("MainActivity", "Loading queue tree data...")
+                }
             }
         }
         setupClientRecyclerView()
     }
 
     private fun setupClientRecyclerView() {
+        Log.d("MainActivity", "Setup RecyclerView")
         clientAdapter = ClientAdapter(emptyList())
         binding.rvClientList.apply {
             adapter = clientAdapter
